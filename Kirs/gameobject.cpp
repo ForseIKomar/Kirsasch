@@ -8,6 +8,7 @@ GameObject::GameObject():
     static int nextId = 0;
     id = nextId;
     nextId++;
+    this->setZValue(0);
 }
 
 GameObject::~GameObject(){
@@ -16,6 +17,7 @@ GameObject::~GameObject(){
 
 void GameObject::setPriority(int prir){
     priority = prir;
+    this->setZValue(prir);
 }
 
 int GameObject::getPrioriy(){
@@ -23,7 +25,7 @@ int GameObject::getPrioriy(){
 }
 
 QRectF GameObject::boundingRect() const{
-    return QRectF(0, 0, cellWidth * 2, cellHeight * 2);
+    return QRectF(0, 0, cellWidth, cellHeight);
 }
 
 void GameObject::setCellPos(int x, int y){

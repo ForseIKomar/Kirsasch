@@ -12,7 +12,7 @@ GameScene::~GameScene(){
 
 void GameScene::generateField(){
     this->clear();
-    matr->generateMatrix(rowSize, colSize);
+    matr->generateMatrix(rowCount, colCount);
     Hero *hero = new Hero();
     hero->setColor(Qt::red);
     hero->setPriority(5);
