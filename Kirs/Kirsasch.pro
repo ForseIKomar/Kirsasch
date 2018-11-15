@@ -19,8 +19,8 @@ SOURCES += main.cpp\
     hero.cpp \
     cellsmatrix.cpp \
     cell.cpp \
-    game.cpp \
-    player.cpp
+    player.cpp \
+    level.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -29,7 +29,7 @@ HEADERS  += mainwindow.h \
     cellsmatrix.h \
     cell.h \
     main_settings.h \
-    game.h \
-    player.h
+    player.h \
+    level.h
 
 FORMS    += mainwindow.ui
