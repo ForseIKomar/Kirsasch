@@ -1,4 +1,6 @@
 #include "cellsmatrix.h"
+#include "cstdlib"
+#include "ctime"
 
 CellsMatrix::CellsMatrix()
 {
@@ -24,16 +26,22 @@ void CellsMatrix::generateMatrix(int w, int h){
     hSize = h;
 }
 
+Cell* CellsMatrix::getCellAt(int x, int y){
+    return matrix[y][x];
+}
+
 void CellsMatrix::fillMatrix(){
+   QBrush brush[5];
+   brush[0] = Qt::blue;
+   brush[1] = Qt::black;
+   brush[2] = Qt::white;
+   brush[3] = Qt::green;
+   brush[4] = Qt::red;
    for (int i = 0; i < hSize; ++i){
        for (int j = 0; j < wSize; ++j){
             Hero *m = new Hero();
-            if ((i + j) % 3 == 0)
-                m->setColor(Qt::blue);
-            if ((i + j) % 3 == 1)
-                m->setColor(Qt::green);
-            if ((i + j) % 3 == 2)
-                m->setColor(Qt::black);
+            int k = rand()%5;
+            m->setColor(brush[k]);
             m->setPriority(0);
             m->setCellPos(i, j);
             matrix[i][j]->addGameObject(m);
@@ -54,6 +62,10 @@ int CellsMatrix::moveGameObject(int x_from, int y_from, int pos_from, int x, int
 
 void CellsMatrix::removeGameObject(int x, int y, int pos){
     matrix[y][x]->removeGameObject(pos);
+}
+
+void CellsMatrix::removeGameObject(int x, int y, GameObject *object){
+    matrix[y][x]->removeGameObject(object);
 }
 
 QVector <GameObject *> CellsMatrix::getAllObjects(){

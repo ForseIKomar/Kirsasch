@@ -18,6 +18,8 @@ public:
     void update();
     void removeGameObject(int x, int y, int pos);
 
+    //void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
+
     CellsMatrix* getMatrix();
 
 private:

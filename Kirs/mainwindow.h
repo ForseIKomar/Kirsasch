@@ -3,9 +3,8 @@
 
 #include <QMainWindow>
 
-#include "gamescene.h"
 #include "hero.h"
-
+#include "level.h"
 #include "QTimer"
 
 namespace Ui {
@@ -22,7 +21,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    GameScene *scene;
+    Level level;
+    //GameScene *scene;
+
     Hero *hero;
 };
 

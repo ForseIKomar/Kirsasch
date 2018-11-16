@@ -11,6 +11,7 @@ class Level
 {
 public:
     Level();
+    Level(int w, int h);
     ~Level();
 
     void AddGameObject(GameObject *object, int x, int y);
@@ -21,14 +22,16 @@ public:
     void RemoveGameObject(GameObject *object);
     void RemoveGameObject(int x, int y, int pos);
 
+    void updateScene();
 
 
-private:
+
+public:
     CellsMatrix*        field;
     GameScene*          graphics;
     Player*             player;
 
-    QVector<GameObject> objects;
+    QVector<GameObject *> objects;
 
 
 };

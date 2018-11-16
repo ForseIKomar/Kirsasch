@@ -11,10 +11,11 @@ public:
     ~Cell();
 
 public:
-    void setPosition(int x, int y);
     int addGameObject(GameObject *object);
     GameObject* removeGameObject(int pos);
+    void removeGameObject(GameObject *object);
 
+    void setPosition(int x, int y);
     int getVectorSize();
     GameObject* getObjectAt(int pos);
 

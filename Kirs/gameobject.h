@@ -12,11 +12,14 @@ public:
 
 public:
     void setCellPos(int x, int y);
+    QPoint getCellPos();
+
     void setPriority(int prir);
     int getPrioriy();
 
 private:
     QRectF boundingRect() const;
+    int x, y;
     int priority;
     int id;
 };

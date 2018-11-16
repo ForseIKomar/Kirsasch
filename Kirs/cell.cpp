@@ -55,6 +55,16 @@ GameObject* Cell::removeGameObject(int pos){
     return res;
 }
 
+void Cell::removeGameObject(GameObject *object){
+    int pos = -1;
+    for (int i = 0; i < objects.size(); ++i){
+        if (objects[i] == object)
+            pos = i;
+    }
+    if (pos >= 0)
+        removeGameObject(pos);
+}
+
 int Cell::getVectorSize(){
     return objects.size();
 }

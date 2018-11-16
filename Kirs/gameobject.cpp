@@ -30,4 +30,10 @@ QRectF GameObject::boundingRect() const{
 
 void GameObject::setCellPos(int x, int y){
     setPos(x * cellWidth, y * cellHeight);
+    this->x = x;
+    this->y = y;
+}
+
+QPoint GameObject::getCellPos(){
+    return(QPoint(this->x, this->y));
 }

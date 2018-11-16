@@ -19,6 +19,9 @@ public:
     int addGameObject(GameObject* object, int x, int y);
     int moveGameObject(int x_from, int y_from, int pos_from, int x, int y);
     void removeGameObject(int x, int y, int pos);
+    void removeGameObject(int x, int y, GameObject* object);
+
+    Cell* getCellAt(int x, int y);
 
     QVector<GameObject *> getAllObjects();
 
