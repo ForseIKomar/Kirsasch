@@ -18,13 +18,7 @@ void Cell::setPosition(int x, int y){
 
 int Cell::addGameObject(GameObject *object){
     objects.push_back(object);
-    if ((currObject == NULL) || (currObject->getPrioriy() < object->getPrioriy()))
-        currObject = object;
-    for (int i = 0; i < objects.size(); ++i){
-        objects[i]->setVisible(false);
-    }
-    if (currObject != NULL)
-        currObject->setVisible(true);
+    currObject = NULL;
     return objects.size() - 1;
 }
 
@@ -37,21 +31,7 @@ GameObject* Cell::removeGameObject(int pos){
         }
     }
     objects.pop_back();
-
-    if (objects.size() > 0){
-        int numb = 0;
-        for (int i = 0; i < objects.size(); ++i){
-            objects[i]->setVisible(false);
-            if (objects[numb]->getPrioriy() < objects[i]->getPrioriy()){
-                numb = i;
-            }
-        }
-        currObject = objects[numb];
-        if (currObject != NULL)
-            currObject->setVisible(true);
-    }
-    else
-        currObject = NULL;
+    currObject = NULL;
     return res;
 }
 
@@ -74,4 +54,19 @@ GameObject* Cell::getObjectAt(int pos){
         return objects[pos];
     else
         return NULL;
+}
+
+GameObject* Cell::getCurrentObject(){
+    GameObject* n = NULL;
+    if (currObject == NULL){
+        if (objects.size() > 0){
+            n = objects[0];
+            for (int i = 1; i < objects.size(); ++i){
+                if (n->getPrioriy() < objects[i]->getPrioriy())
+                    n = objects[i];
+            }
+        }
+        currObject = n;
+    }
+    return currObject;
 }

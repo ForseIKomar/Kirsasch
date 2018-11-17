@@ -2,6 +2,7 @@
 #define LEVEL_H
 
 #include <QVector>
+#include <QGraphicsSceneMouseEvent>
 
 #include "gamescene.h"
 #include "cellsmatrix.h"
@@ -10,9 +11,10 @@
 class Level
 {
 public:
-    Level();
-    Level(int w, int h);
+    explicit Level();
     ~Level();
+
+    void generateField();
 
     void AddGameObject(GameObject *object, int x, int y);
 
@@ -24,11 +26,17 @@ public:
 
     void updateScene();
 
+    void AddHero();
+
+public slots:
+    void MoveHeroSlot(QGraphicsSceneMouseEvent* event);
+
 
 
 public:
     CellsMatrix*        field;
     GameScene*          graphics;
+    Hero*               hero;
     Player*             player;
 
     QVector<GameObject *> objects;

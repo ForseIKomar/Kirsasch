@@ -2,41 +2,29 @@
 #include "dos.h"
 #include "main_settings.h"
 
+#include <iostream>
+using namespace std;
+
 GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
-    matr = new CellsMatrix();
+
 }
 
 GameScene::~GameScene(){
 
 }
 
-void GameScene::generateField(){
-    this->clear();
-    matr->generateMatrix(rowCount, colCount);
-    Hero *hero = new Hero();
-    hero->setColor(Qt::red);
-    hero->setPriority(5);
-    hero->setCellPos(1, 1);
-    int pos = matr->addGameObject(hero, 1, 1);
-    matr->fillMatrix();
-    update();
-}
-
-void GameScene::update(){
+void GameScene::render(QVector<GameObject *> objects){
     for (int i = 0; i < lastVect.size(); ++i){
         this->removeItem(lastVect[i]);
     }
-    QVector<GameObject *> m = matr->getAllObjects();
+    QVector<GameObject *> m = objects;
     for (int i = 0; i < m.size(); ++i){
         this->addItem(m[i]);
     }
+    cout << "update: " << m.size() << endl;
     lastVect = m;
 }
 
-void GameScene::removeGameObject(int x, int y, int pos){
-    matr->removeGameObject(x, y, pos);
-}
+void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 
-CellsMatrix* GameScene::getMatrix(){
-    return matr;
 }

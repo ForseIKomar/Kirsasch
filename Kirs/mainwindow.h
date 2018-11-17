@@ -6,6 +6,8 @@
 #include "hero.h"
 #include "level.h"
 #include "QTimer"
+#include "player.h"
+#include "gamescene.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,8 +23,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Level level;
+    Level *level;
     //GameScene *scene;
+    Player *player;
 
     Hero *hero;
 };

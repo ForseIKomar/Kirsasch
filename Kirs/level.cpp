@@ -1,15 +1,13 @@
 #include "level.h"
+#include "main_settings.h"
 
 Level::Level()
 {
+
     field = new CellsMatrix();
     graphics = new GameScene();
     player = new Player();
     objects.clear();
-}
-
-Level::Level(int w, int h){
-    Level();
 }
 
 Level::~Level(){
@@ -18,6 +16,15 @@ Level::~Level(){
 
 void Level::AddGameObject(GameObject *object, int x, int y){
     field->addGameObject(object, x, y);
+}
+
+void Level::AddHero(){
+
+    hero = new Hero();
+    hero->setColor(Qt::yellow);
+    hero->setCellPos(1, 1);
+    hero->setPriority(10);
+    AddGameObject(hero, 1, 1);
 }
 
 void Level::MoveGameObject(GameObject *object, int from_x, int from_y, int to_x, int to_y){
@@ -41,9 +48,18 @@ void Level::RemoveGameObject(int x, int y, int pos){
 }
 
 void Level::updateScene(){
-    graphics->clear();
-    for (auto i = 0; i < objects.size(); i++){
-        graphics->addItem(objects[i]);
-    }
+    objects.clear();
+    objects = field->getAllObjects();
+    graphics->render(objects);
 }
 
+void Level::generateField(){
+    field->generateMatrix(rowCount, colCount);
+    field->fillMatrix();
+}
+
+void Level::MoveHeroSlot(QGraphicsSceneMouseEvent *event){
+    int x = ((int)event->pos().x() / cellWidth) % colCount;
+    int y = ((int)event->pos().y() / cellHeight) % rowCount;
+    MoveGameObject(hero, hero->getCellPos(), QPoint(x, y));
+}

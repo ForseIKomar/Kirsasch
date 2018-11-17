@@ -18,6 +18,7 @@ public:
     void setPosition(int x, int y);
     int getVectorSize();
     GameObject* getObjectAt(int pos);
+    GameObject* getCurrentObject();
 
 private:
     QVector<GameObject *> objects;

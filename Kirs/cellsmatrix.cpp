@@ -27,7 +27,10 @@ void CellsMatrix::generateMatrix(int w, int h){
 }
 
 Cell* CellsMatrix::getCellAt(int x, int y){
-    return matrix[y][x];
+    if ((matrix.size() > y) && (matrix[y].size() > x))
+        return matrix[y][x];
+    else
+        return NULL;
 }
 
 void CellsMatrix::fillMatrix(){
@@ -50,7 +53,8 @@ void CellsMatrix::fillMatrix(){
 }
 
 int CellsMatrix::addGameObject(GameObject *object, int x, int y){
-    return matrix[y][x]->addGameObject(object);
+    if ((matrix.size() > y) && (matrix[y].size() > x))
+        return matrix[y][x]->addGameObject(object);
 
 }
 
@@ -72,9 +76,7 @@ QVector <GameObject *> CellsMatrix::getAllObjects(){
     QVector <GameObject *> resultVector;
     for (int i = 0; i < hSize; ++i){
         for (int j = 0; j < wSize; ++j){
-            //for (int l = 0; l < matrix[i][j]->getVectorSize(); ++l){
-                resultVector.push_back(matrix[i][j]->getObjectAt(0));
-            //}
+            resultVector.push_back(matrix[i][j]->getCurrentObject());
         }
     }
     return resultVector;

@@ -3,9 +3,9 @@
 
 #include <QGraphicsScene>
 #include <QObject>
+#include <QGraphicsSceneMouseEvent>
 
-#include "hero.h"
-#include "cellsmatrix.h"
+#include "gameobject.h"
 
 class GameScene: public QGraphicsScene
 {
@@ -14,18 +14,13 @@ public:
     explicit GameScene(QObject *parent = 0);
     ~GameScene();
 
-    void generateField();
-    void update();
-    void removeGameObject(int x, int y, int pos);
+    void render(QVector<GameObject *> objects);
 
-    //void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent);
-
-    CellsMatrix* getMatrix();
+signals:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    CellsMatrix *matr;
     QVector<GameObject *> lastVect;
-    Hero *hero;
 
 };
 

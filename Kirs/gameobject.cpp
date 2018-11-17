@@ -17,7 +17,6 @@ GameObject::~GameObject(){
 
 void GameObject::setPriority(int prir){
     priority = prir;
-    this->setZValue(prir);
 }
 
 int GameObject::getPrioriy(){
