@@ -28,8 +28,9 @@ public:
 
     void AddHero();
 
-public slots:
-    void MoveHeroSlot(QGraphicsSceneMouseEvent* event);
+    void CheckMoving();
+
+
 
 
 

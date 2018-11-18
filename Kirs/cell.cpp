@@ -5,10 +5,19 @@ Cell::Cell()
     x = 0;
     y = 0;
     currObject = NULL;
+    land = NULL;
 }
 
 Cell::~Cell(){
 
+}
+
+void Cell::setLandshaft(GameObject *landsh){
+    land = landsh;
+}
+
+GameObject* Cell::getLandshaft(){
+    return land;
 }
 
 void Cell::setPosition(int x, int y){

@@ -1,6 +1,9 @@
 #include "level.h"
 #include "main_settings.h"
 
+#include <iostream>
+using namespace std;
+
 Level::Level()
 {
 
@@ -50,6 +53,7 @@ void Level::RemoveGameObject(int x, int y, int pos){
 void Level::updateScene(){
     objects.clear();
     objects = field->getAllObjects();
+
     graphics->render(objects);
 }
 
@@ -58,8 +62,14 @@ void Level::generateField(){
     field->fillMatrix();
 }
 
-void Level::MoveHeroSlot(QGraphicsSceneMouseEvent *event){
-    int x = ((int)event->pos().x() / cellWidth) % colCount;
-    int y = ((int)event->pos().y() / cellHeight) % rowCount;
-    MoveGameObject(hero, hero->getCellPos(), QPoint(x, y));
+void Level::CheckMoving(){
+    QPoint* p = graphics->getClickPos();
+    if (p != NULL){
+        cout << "x = " << p->x() << " y = " << p->y() << endl;
+        MoveGameObject(hero, hero->getCellPos(), QPoint(p->x(), p->y()));
+        graphics->setSceneRect((p->x() - 10) * cellWidth, (p->y() - 7) * cellHeight,
+                        colCount * cellWidth, rowCount * cellHeight);
+    }
 }
+
+

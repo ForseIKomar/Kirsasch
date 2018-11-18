@@ -20,9 +20,13 @@ public:
     GameObject* getObjectAt(int pos);
     GameObject* getCurrentObject();
 
+    void setLandshaft(GameObject* landsh);
+    GameObject* getLandshaft();
+
 private:
     QVector<GameObject *> objects;
     GameObject* currObject;
+    GameObject* land;
     int x, y;
 };
 

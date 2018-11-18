@@ -4,6 +4,8 @@
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsSceneMouseEvent>
+#include <QMouseEvent>
+#include <QKeyEvent>
 
 #include "gameobject.h"
 
@@ -16,12 +18,16 @@ public:
 
     void render(QVector<GameObject *> objects);
 
-signals:
+    QPoint* getClickPos();
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+    void keyPressEvent(QKeyEvent *event);
 
 private:
     QVector<GameObject *> lastVect;
-
+    QPoint* lastClickPos;
+    bool hasClicked;
 };
 
 #endif // GAMESCENE_H

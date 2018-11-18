@@ -5,6 +5,7 @@
 
 #include "cell.h"
 #include "hero.h"
+#include "landshaft.h"
 
 class CellsMatrix
 {

@@ -1,11 +1,24 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <QVector>
+#include <QPoint>
+#include "hero.h"
 
 class Player
 {
 public:
-    Player();
+    explicit Player();
+    ~Player();
+
+    void setNextPoint(int x, int y);
+    QPoint getNextMovingPoint(QVector<QVector<int>> movingMap);
+
+
+private:
+    Hero *hero;
+    int x, y;
+    int nextX, nextY;
 };
 
 #endif // PLAYER_H

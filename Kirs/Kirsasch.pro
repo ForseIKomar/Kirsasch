@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     cellsmatrix.cpp \
     cell.cpp \
     player.cpp \
-    level.cpp
+    level.cpp \
+    landshaft.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -30,6 +31,7 @@ HEADERS  += mainwindow.h \
     cell.h \
     main_settings.h \
     player.h \
-    level.h
+    level.h \
+    landshaft.h
 
 FORMS    += mainwindow.ui
