@@ -24,10 +24,13 @@ public:
 
     void keyPressEvent(QKeyEvent *event);
 
+    void setLeftPoint(int x, int y);
+
 private:
     QVector<GameObject *> lastVect;
     QPoint* lastClickPos;
     bool hasClicked;
+    int leftX, leftY;
 };
 
 #endif // GAMESCENE_H

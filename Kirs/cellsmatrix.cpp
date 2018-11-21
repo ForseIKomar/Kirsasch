@@ -54,6 +54,8 @@ int CellsMatrix::addGameObject(GameObject *object, int x, int y){
     object->setCellPos(x, y);
     if ((matrix.size() > y) && (matrix[y].size() > x))
         return matrix[x][y]->addGameObject(object);
+    else
+        return 0;
 }
 
 int CellsMatrix::moveGameObject(int x_from, int y_from, int pos_from, int x, int y){

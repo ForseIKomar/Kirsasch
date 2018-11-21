@@ -12,8 +12,8 @@ public:
     ~Player();
 
     void setNextPoint(int x, int y);
-    QPoint getNextMovingPoint(QVector<QVector<int>> movingMap);
-
+    QPoint getNextMovingPoint();
+    Hero* getHero();
 
 private:
     Hero *hero;

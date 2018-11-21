@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     cell.cpp \
     player.cpp \
     level.cpp \
-    landshaft.cpp
+    landshaft.cpp \
+    indicatorscene.cpp \
+    healthbar.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -32,6 +34,8 @@ HEADERS  += mainwindow.h \
     main_settings.h \
     player.h \
     level.h \
-    landshaft.h
+    landshaft.h \
+    indicatorscene.h \
+    healthbar.h
 
 FORMS    += mainwindow.ui

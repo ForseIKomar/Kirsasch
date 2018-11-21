@@ -12,11 +12,11 @@ Cell::~Cell(){
 
 }
 
-void Cell::setLandshaft(GameObject *landsh){
+void Cell::setLandshaft(Landshaft *landsh){
     land = landsh;
 }
 
-GameObject* Cell::getLandshaft(){
+Landshaft* Cell::getLandshaft(){
     return land;
 }
 

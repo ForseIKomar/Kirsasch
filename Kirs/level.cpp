@@ -11,6 +11,8 @@ Level::Level()
     graphics = new GameScene();
     player = new Player();
     objects.clear();
+    indicators = new IndicatorScene();
+
 }
 
 Level::~Level(){
@@ -22,22 +24,18 @@ void Level::AddGameObject(GameObject *object, int x, int y){
 }
 
 void Level::AddHero(){
-
-    hero = new Hero();
-    hero->setColor(Qt::yellow);
-    hero->setCellPos(1, 1);
-    hero->setPriority(10);
-    AddGameObject(hero, 1, 1);
+    AddGameObject(player->getHero(), 1, 1);
 }
 
-void Level::MoveGameObject(GameObject *object, int from_x, int from_y, int to_x, int to_y){
-    Cell* c = field->getCellAt(from_x, from_y);
+void Level::MoveGameObject(GameObject *object, int to_x, int to_y){
+    Cell* c = field->getCellAt(object->getCellPos().x(),
+                               object->getCellPos().y());
     c->removeGameObject(object);
     AddGameObject(object, to_x, to_y);
 }
 
-void Level::MoveGameObject(GameObject *object, QPoint from, QPoint to){
-    MoveGameObject(object, from.x(), from.y(), to.x(), to.y());
+void Level::MoveGameObject(GameObject *object, QPoint to){
+    MoveGameObject(object, to.x(), to.y());
 }
 
 void Level::RemoveGameObject(GameObject *object){
@@ -50,7 +48,9 @@ void Level::RemoveGameObject(int x, int y, int pos){
     field->getCellAt(x, y)->removeGameObject(pos);
 }
 
-void Level::updateScene(){
+void Level::updateLevel(){
+    CheckMoving();
+    moveHero();
     objects.clear();
     objects = field->getAllObjects();
 
@@ -65,11 +65,27 @@ void Level::generateField(){
 void Level::CheckMoving(){
     QPoint* p = graphics->getClickPos();
     if (p != NULL){
-        cout << "x = " << p->x() << " y = " << p->y() << endl;
-        MoveGameObject(hero, hero->getCellPos(), QPoint(p->x(), p->y()));
-        graphics->setSceneRect((p->x() - 10) * cellWidth, (p->y() - 7) * cellHeight,
-                        colCount * cellWidth, rowCount * cellHeight);
+        player->setNextPoint(p->x(), p->y());
     }
 }
 
+void Level::moveHero(){
+    QPoint p = player->getNextMovingPoint();
+    MoveGameObject(player->getHero(), p);
+    graphics->setLeftPoint(p.x(), p.y());
+}
 
+void Level::setSceneRect(int x, int y){
+}
+
+GameScene* Level::getGraphics(){
+    return graphics;
+}
+
+Cell* Level::getCellAt(int x, int y){
+    return field->getCellAt(x, y);
+}
+
+Player* Level::getPlayer(){
+    return player;
+}

@@ -3,7 +3,7 @@
 
 #include <QVector>
 #include "gameobject.h"
-
+#include "landshaft.h"
 class Cell
 {
 public:
@@ -20,13 +20,13 @@ public:
     GameObject* getObjectAt(int pos);
     GameObject* getCurrentObject();
 
-    void setLandshaft(GameObject* landsh);
-    GameObject* getLandshaft();
+    void setLandshaft(Landshaft* landsh);
+    Landshaft* getLandshaft();
 
 private:
     QVector<GameObject *> objects;
     GameObject* currObject;
-    GameObject* land;
+    Landshaft* land;
     int x, y;
 };
 

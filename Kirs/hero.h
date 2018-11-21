@@ -13,11 +13,17 @@ public:
 
     void setColor(QBrush brush);
 
+    bool changeHealth(int damage, int heal);
+    void setMaxHealth(int mHealth);
+    int getHealth();
+
 private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     QBrush color;
+    int health, maxHealth;
+    int regenPerFrame;
 };
 
 #endif // HERO_H

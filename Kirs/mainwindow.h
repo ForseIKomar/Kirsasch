@@ -9,6 +9,9 @@
 #include "QTimer"
 #include "player.h"
 #include "gamescene.h"
+#include "indicatorscene.h"
+
+#include "healthbar.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,7 +37,11 @@ private:
     Player *player;
     QTimer *timer;
     Hero *hero;
-    int i;
+    IndicatorScene *iScene;
+
+    HealthBar *h;
+
+    int i, j;
 };
 
 #endif // MAINWINDOW_H

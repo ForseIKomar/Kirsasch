@@ -17,11 +17,14 @@ public:
     void setPriority(int prir);
     int getPrioriy();
 
+    void setWalkProperty(bool canWalk);
+
 private:
     QRectF boundingRect() const;
     int x, y;
     int priority;
     int id;
+    bool canWalkThrow;
 };
 
 #endif // GAMEOBJECT_H

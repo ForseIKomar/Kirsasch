@@ -8,6 +8,9 @@ using namespace std;
 GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
     lastClickPos = new QPoint();
     hasClicked = false;
+    leftX = 0;
+    leftY = 0;
+    setSceneRect(0, 0, 12 * cellWidth, 10 * cellHeight);
 }
 
 GameScene::~GameScene(){
@@ -44,7 +47,28 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
 }
 
 void GameScene::keyPressEvent(QKeyEvent *event){
+    int dx = 0;
+    int dy = 0;
+    switch(event->key()){
+        case Qt::Key_Right:{ dx = 1; break; }
+        case Qt::Key_Left:{ dx = -1; break; }
+        case Qt::Key_Up:{ dy = -1; break; }
+        case Qt::Key_Down:{ dy = 1; break; }
+    }
+    if (dx + dy != 0){
+        bool p = false;
+        if ((lastClickPos->x() + dx >= 0) && (lastClickPos->x() + dx  < colCount)){
+            lastClickPos->setX(lastClickPos->x() + dx);
+            p = true;
+        }
 
+        if ((lastClickPos->y() + dy >= 0) && (lastClickPos->y() + dy < rowCount)){
+            lastClickPos->setY(lastClickPos->y() + dy);
+            p = true;
+        }
+        if (p)
+            hasClicked = true;
+    }
 }
 
 QPoint* GameScene::getClickPos(){
@@ -56,4 +80,22 @@ QPoint* GameScene::getClickPos(){
         hasClicked = false;
         return NULL;
     }
+}
+
+void GameScene::setLeftPoint(int x, int y){
+    if (leftX + 1 >= x){
+        leftX -= leftX + 2 - x;
+    }
+    else if (leftX + 10 <= x){
+        leftX += x - (leftX + 9);
+    }
+    if (leftY + 1 >= y){
+        leftY -= leftY + 2 - y;
+    }
+    else if (leftY + 8 <= y){
+        leftY += y - (leftY + 7);
+    }
+
+    setSceneRect(leftX * cellWidth, leftY * cellHeight,
+        12 * cellWidth, 10 * cellHeight);
 }

@@ -7,6 +7,7 @@
 #include "gamescene.h"
 #include "cellsmatrix.h"
 #include "player.h"
+#include "indicatorscene.h"
 
 class Level
 {
@@ -18,31 +19,34 @@ public:
 
     void AddGameObject(GameObject *object, int x, int y);
 
-    void MoveGameObject(GameObject *object, int from_x, int from_y, int to_x, int to_y);
-    void MoveGameObject(GameObject *object, QPoint from, QPoint to);
+    void MoveGameObject(GameObject *object, int to_x, int to_y);
+    void MoveGameObject(GameObject *object, QPoint to);
 
     void RemoveGameObject(GameObject *object);
     void RemoveGameObject(int x, int y, int pos);
 
-    void updateScene();
+    void updateLevel();
 
     void AddHero();
 
     void CheckMoving();
+    void moveHero();
+
+    void setSceneRect(int x, int y);
+
+    GameScene* getGraphics();
+    Cell* getCellAt(int x, int y);
+    Player* getPlayer();
 
 
 
-
-
-public:
+private:
     CellsMatrix*        field;
     GameScene*          graphics;
-    Hero*               hero;
     Player*             player;
+    IndicatorScene*     indicators;
 
     QVector<GameObject *> objects;
-
-
 };
 
 #endif // LEVEL_H

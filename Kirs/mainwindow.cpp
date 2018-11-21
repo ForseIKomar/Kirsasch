@@ -13,20 +13,28 @@ MainWindow::MainWindow(QWidget *parent) :
 
     level = new Level();
     i = 0;
-    GameScene *scene = level->graphics;
     level->generateField();
-    ui->graphicsView->setGeometry(0, 0, colCount * cellWidth, rowCount * cellHeight);
-    scene->setSceneRect(0, 0, colCount * cellWidth, rowCount * cellHeight);
-    ui->graphicsView->setScene(scene);
-    this->setGeometry(400, 400, 800, 600);
-    scene->update();
+    ui->graphicsView->setGeometry(0, 0, 14 * cellWidth, 12 * cellHeight);
+    ui->graphicsView->setScene(level->getGraphics());
+    this->setGeometry(0, 40, 14 * cellWidth, 20 * cellHeight);
+    this->setMaximumHeight(30 * cellHeight);
+    this->setMaximumWidth(14 * cellWidth);
+    this->setMinimumHeight(14 * cellHeight);
+    this->setMinimumWidth(14 * cellWidth);
     level->AddHero();
-    level->updateScene();
+
+    iScene = new IndicatorScene();
+    ui->graphicsView_2->setGeometry(0, 12 * cellHeight, 14 * cellWidth,
+                                    2 * cellHeight);
+    iScene->setSceneRect(0, 0, 12 * cellWidth, 2 * cellHeight);
+    ui->graphicsView_2->setScene(iScene);
+    iScene->getHealthBar()->setMaxHealth(100, 100);
 
     timer = new QTimer();
     timer->setInterval(20);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
     timer->start();
+    j = 100;
 
 }
 
@@ -40,7 +48,21 @@ void MainWindow::timerEvent(){
 
 void MainWindow::onTimer(){
     cout << i++ << endl;
-    level->CheckMoving();
-    level->updateScene();
+    QPoint m = level->getPlayer()->getHero()->getCellPos();
+    if (level->getCellAt(m.x(), m.y())->getLandshaft()->color == Qt::darkGreen){
+        level->getPlayer()->getHero()->changeHealth(5, 0);
+        j -= 4;
+        if (j < 0)
+            j = 0;
+        iScene->getHealthBar()->setHealth(j);
+    }
+    else{
+        level->getPlayer()->getHero()->changeHealth(0, 0);
+        j += 1;
+        if (j > 100)
+            j = 100;
+        iScene->getHealthBar()->setHealth(j);
+    }
+    level->updateLevel();
 
 }

@@ -9,6 +9,7 @@ GameObject::GameObject():
     id = nextId;
     nextId++;
     this->setZValue(0);
+    canWalkThrow = false;
 }
 
 GameObject::~GameObject(){
@@ -35,4 +36,8 @@ void GameObject::setCellPos(int x, int y){
 
 QPoint GameObject::getCellPos(){
     return(QPoint(this->x, this->y));
+}
+
+void GameObject::setWalkProperty(bool canWalk){
+    canWalkTrow = canWalk;
 }
