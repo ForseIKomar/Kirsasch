@@ -45,6 +45,12 @@ void CellsMatrix::fillMatrix(){
             m->setColor(brush[k]);
             m->setPriority(0);
             m->setCellPos(i, j);
+            if (k == 1){
+                m->setImage(QPixmap(":/img/wall.png"));
+                m->setWalkProperty(false);
+            }
+            else
+                m->setWalkProperty(true);
             matrix[i][j]->setLandshaft(m);
        }
    }

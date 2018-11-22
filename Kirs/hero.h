@@ -4,6 +4,7 @@
 #include <QObject>
 #include "gameobject.h"
 #include <QBrush>
+#include <QImage>
 
 class Hero: public GameObject
 {
@@ -22,6 +23,7 @@ private:
 
 private:
     QBrush color;
+    QImage image;
     int health, maxHealth;
     int regenPerFrame;
 };

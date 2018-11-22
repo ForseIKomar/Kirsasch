@@ -26,6 +26,7 @@ public:
     ~MainWindow();
 
     void timerEvent();
+    void newGame();
 
 public slots:
     void onTimer();

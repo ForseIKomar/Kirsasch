@@ -25,11 +25,10 @@ void GameScene::render(QVector<GameObject *> objects){
     for (int i = 0; i < m.size(); ++i){
         this->addItem(m[i]);
     }
-    cout << "update: " << m.size() << endl;
     lastVect = m;
 }
 
-void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
+/*void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
     int xx = (int)event->scenePos().x();
     int yy = (int)event->scenePos().y();
     if ((xx >= 0) && (yy >= 0) &&
@@ -44,31 +43,21 @@ void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
         cout << "x = " << lastClickPos->x() << " y = " << lastClickPos->y() << endl;
     }
     Q_UNUSED(event);
-}
+}*/
 
 void GameScene::keyPressEvent(QKeyEvent *event){
+    cout << "keyPressed: ";
     int dx = 0;
     int dy = 0;
     switch(event->key()){
-        case Qt::Key_Right:{ dx = 1; break; }
-        case Qt::Key_Left:{ dx = -1; break; }
-        case Qt::Key_Up:{ dy = -1; break; }
-        case Qt::Key_Down:{ dy = 1; break; }
+        case Qt::Key_Right:{ dx = 1; cout << "rigth\n"; break; }
+        case Qt::Key_Left:{ dx = -1; cout << "left\n"; break; }
+        case Qt::Key_Up:{ dy = -1; cout << "up\n"; break; }
+        case Qt::Key_Down:{ dy = 1; cout << "down\n"; break; }
     }
-    if (dx + dy != 0){
-        bool p = false;
-        if ((lastClickPos->x() + dx >= 0) && (lastClickPos->x() + dx  < colCount)){
-            lastClickPos->setX(lastClickPos->x() + dx);
-            p = true;
-        }
-
-        if ((lastClickPos->y() + dy >= 0) && (lastClickPos->y() + dy < rowCount)){
-            lastClickPos->setY(lastClickPos->y() + dy);
-            p = true;
-        }
-        if (p)
-            hasClicked = true;
-    }
+    hasClicked = true;
+    lastClickPos->setX(dx);
+    lastClickPos->setY(dy);
 }
 
 QPoint* GameScene::getClickPos(){
@@ -76,10 +65,8 @@ QPoint* GameScene::getClickPos(){
         hasClicked = false;
         return lastClickPos;
     }
-    else{
-        hasClicked = false;
+    else
         return NULL;
-    }
 }
 
 void GameScene::setLeftPoint(int x, int y){

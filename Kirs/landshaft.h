@@ -13,12 +13,15 @@ public:
     ~Landshaft();
 
     void setColor(QBrush brush);
+    void setImage(QPixmap image);
 
 private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+
 public:
     QBrush color;
+    QPixmap *pix;
 
 };
 

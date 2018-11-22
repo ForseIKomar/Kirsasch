@@ -6,6 +6,8 @@
 Hero::Hero(): GameObject()
 {
     color = Qt::red;
+    setWalkProperty(true);
+    image.load("img/hero.jpg");
 }
 
 Hero::~Hero(){
@@ -17,8 +19,9 @@ void Hero::setColor(QBrush brush){
 }
 
 void Hero::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->setBrush(color);
-    painter->drawEllipse(0, 0, cellWidth, cellHeight);
+    //painter->setBrush(color);
+    //painter->drawEllipse(0, 0, cellWidth, cellHeight);
+    painter->drawPixmap(1, 1, 49, 49, QPixmap(":/img/2.png"));
     Q_UNUSED(widget);
     Q_UNUSED(option);
 }

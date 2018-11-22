@@ -18,6 +18,7 @@ public:
     int getPrioriy();
 
     void setWalkProperty(bool canWalk);
+    bool getWalkProperty();
 
 private:
     QRectF boundingRect() const;

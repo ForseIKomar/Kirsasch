@@ -15,37 +15,22 @@ Player::~Player(){
 
 }
 
-QPoint Player::getNextMovingPoint(){
-    if (nextY >= y){
-        if (nextX != x){
-            if (nextX > x){
-                return QPoint(x++, y);
-            }
-            else
-                return QPoint(x--, y);
+QPoint Player::getNextMovingPoint(bool *needWalk){
+    *needWalk = true;
+    if (nextX != x){
+        if (nextX > x){
+            return QPoint(++x, y);
+        }
+        else
+            return QPoint(--x, y);
         }
         if (nextY != y){
             if (nextY > y)
-                return QPoint(x, y++);
+                return QPoint(x, ++y);
             else
-                return QPoint(x, y--);
-        }
+                return QPoint(x, --y);
     }
-    else{
-        if (nextY != y){
-            if (nextY > y)
-                return QPoint(x, y++);
-            else
-                return QPoint(x, y--);
-        }
-        if (nextX != x){
-            if (nextX > x){
-                return QPoint(x++, y);
-            }
-            else
-                return QPoint(x--, y);
-        }
-    }
+    *needWalk = false;
     return QPoint(x, y);
 }
 

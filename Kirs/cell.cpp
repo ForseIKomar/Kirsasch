@@ -6,6 +6,7 @@ Cell::Cell()
     y = 0;
     currObject = NULL;
     land = NULL;
+    canWalk = true;
 }
 
 Cell::~Cell(){
@@ -13,6 +14,9 @@ Cell::~Cell(){
 }
 
 void Cell::setLandshaft(Landshaft *landsh){
+    if (!landsh->getWalkProperty()){
+        canWalk = false;
+    }
     land = landsh;
 }
 
@@ -26,6 +30,9 @@ void Cell::setPosition(int x, int y){
 }
 
 int Cell::addGameObject(GameObject *object){
+    if (!object->getWalkProperty()){
+        canWalk = false;
+    }
     objects.push_back(object);
     currObject = NULL;
     return objects.size() - 1;
@@ -39,6 +46,11 @@ GameObject* Cell::removeGameObject(int pos){
             objects[i] = objects[i + 1];
         }
     }
+
+    if (!res->getWalkProperty()){
+        canWalk = false;
+    }
+
     objects.pop_back();
     currObject = NULL;
     return res;
@@ -78,4 +90,8 @@ GameObject* Cell::getCurrentObject(){
         currObject = n;
     }
     return currObject;
+}
+
+bool Cell::canWalkTo(){
+    return canWalk;
 }

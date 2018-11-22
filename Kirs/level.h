@@ -32,8 +32,6 @@ public:
     void CheckMoving();
     void moveHero();
 
-    void setSceneRect(int x, int y);
-
     GameScene* getGraphics();
     Cell* getCellAt(int x, int y);
     Player* getPlayer();

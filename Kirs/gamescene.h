@@ -20,7 +20,7 @@ public:
 
     QPoint* getClickPos();
 
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    //void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     void keyPressEvent(QKeyEvent *event);
 

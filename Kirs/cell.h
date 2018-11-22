@@ -22,12 +22,14 @@ public:
 
     void setLandshaft(Landshaft* landsh);
     Landshaft* getLandshaft();
+    bool canWalkTo();
 
 private:
     QVector<GameObject *> objects;
     GameObject* currObject;
     Landshaft* land;
     int x, y;
+    bool canWalk;
 };
 
 #endif // CELL_H

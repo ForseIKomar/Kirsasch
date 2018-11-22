@@ -13,6 +13,7 @@ Level::Level()
     objects.clear();
     indicators = new IndicatorScene();
 
+
 }
 
 Level::~Level(){
@@ -24,7 +25,7 @@ void Level::AddGameObject(GameObject *object, int x, int y){
 }
 
 void Level::AddHero(){
-    AddGameObject(player->getHero(), 1, 1);
+    AddGameObject(player->getHero(), 0, 0);
 }
 
 void Level::MoveGameObject(GameObject *object, int to_x, int to_y){
@@ -49,12 +50,14 @@ void Level::RemoveGameObject(int x, int y, int pos){
 }
 
 void Level::updateLevel(){
+    cout << "\nStart updating\n";
     CheckMoving();
     moveHero();
     objects.clear();
     objects = field->getAllObjects();
-
+    cout << "Count of redrawed objects: " << objects.size() << endl;
     graphics->render(objects);
+    cout << "End of update\n";
 }
 
 void Level::generateField(){
@@ -65,17 +68,26 @@ void Level::generateField(){
 void Level::CheckMoving(){
     QPoint* p = graphics->getClickPos();
     if (p != NULL){
-        player->setNextPoint(p->x(), p->y());
+        cout << "Coords:" << p->x() << " " << p->y() << endl;
+        int x = p->x() + player->getHero()->getCellPos().x();
+        int y = p->y() + player->getHero()->getCellPos().y();
+        if (!((x < 0) || (x >= rowCount) || (y < 0) || (y >= colCount)) && (field->getCellAt(x, y)->canWalkTo())){
+            player->setNextPoint(p->x() + player->getHero()->getCellPos().x(),
+                                 p->y() + player->getHero()->getCellPos().y());
+        }
+        else
+            cout << "Not this time\n";
     }
 }
 
 void Level::moveHero(){
-    QPoint p = player->getNextMovingPoint();
-    MoveGameObject(player->getHero(), p);
+    bool* t = new bool(false);
+    QPoint p = player->getNextMovingPoint(t);
+    if (*t){
+        cout << "moveHero x = " << p.x() << ", y = " << p.y() << endl;
+        MoveGameObject(player->getHero(), p);
+    }
     graphics->setLeftPoint(p.x(), p.y());
-}
-
-void Level::setSceneRect(int x, int y){
 }
 
 GameScene* Level::getGraphics(){

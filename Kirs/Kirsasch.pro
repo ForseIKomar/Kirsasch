@@ -39,3 +39,6 @@ HEADERS  += mainwindow.h \
     healthbar.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    hero.qrc

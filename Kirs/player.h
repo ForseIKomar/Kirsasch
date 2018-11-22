@@ -12,7 +12,7 @@ public:
     ~Player();
 
     void setNextPoint(int x, int y);
-    QPoint getNextMovingPoint();
+    QPoint getNextMovingPoint(bool *needWalk);
     Hero* getHero();
 
 private:
