@@ -33,6 +33,10 @@ Cell* CellsMatrix::getCellAt(int x, int y){
         return NULL;
 }
 
+Cell* CellsMatrix::getCellAt(QPoint point){
+    return this->getCellAt(point.x(), point.y());
+}
+
 void CellsMatrix::fillMatrix(){
    QBrush brush[3];
    brush[0] = Qt::darkGreen;
@@ -51,6 +55,15 @@ void CellsMatrix::fillMatrix(){
             }
             else
                 m->setWalkProperty(true);
+            if (k == 0){
+                m->setImage(QPixmap(":/img/ground.png"));
+                TrapOnLand *trap = new TrapOnLand();
+                trap->setTrap(rand()%10 , false, 3);
+                trap->setCellPos(i, j);
+                matrix[i][j]->addTrap(trap);
+            }
+            if (k == 2)
+                m->setImage(QPixmap(":/img/ground.png"));
             matrix[i][j]->setLandshaft(m);
        }
    }
@@ -64,17 +77,6 @@ int CellsMatrix::addGameObject(GameObject *object, int x, int y){
         return 0;
 }
 
-int CellsMatrix::moveGameObject(int x_from, int y_from, int pos_from, int x, int y){
-    int res = matrix[x][y]->addGameObject(matrix[x_from][y_from]->getObjectAt(pos_from));
-    matrix[x][y]->getObjectAt(pos_from)->setCellPos(x, y);
-    matrix[x_from][y_from]->removeGameObject(pos_from);
-    return res;
-}
-
-void CellsMatrix::removeGameObject(int x, int y, int pos){
-    matrix[x][y]->removeGameObject(pos);
-}
-
 void CellsMatrix::removeGameObject(int x, int y, GameObject *object){
     matrix[x][y]->removeGameObject(object);
 }
@@ -83,10 +85,10 @@ QVector <GameObject *> CellsMatrix::getAllObjects(){
     QVector <GameObject *> resultVector;
     for (int i = 0; i < hSize; ++i){
         for (int j = 0; j < wSize; ++j){
-            GameObject* obj = matrix[i][j]->getCurrentObject();
+            QVector<GameObject*> objs = matrix[i][j]->getObjects();
             GameObject* land = matrix[i][j]->getLandshaft();
-            if (obj)
-                resultVector.push_back(obj);
+            for (int i = 0; i < objs.size(); ++i)
+                resultVector.push_back(objs[i]);
             if (land)
                 resultVector.push_back(land);
         }

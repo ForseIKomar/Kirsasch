@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     newGame();
     ui->graphicsView->setGeometry(0, 0, 14 * cellWidth, 12 * cellHeight);
-    ui->graphicsView->setScene(level->getGraphics());
     this->setGeometry(0, 40, 14 * cellWidth, 20 * cellHeight);
     this->setMaximumHeight(30 * cellHeight);
     this->setMaximumWidth(14 * cellWidth);
@@ -24,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
                                     2 * cellHeight);
     ui->graphicsView_2->setScene(iScene);
 
+    timer = new QTimer();
+    timer->setInterval(20);
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
+    timer->start();
 
 }
 
@@ -34,18 +37,15 @@ void MainWindow::newGame(){
     ui->graphicsView->setScene(level->getGraphics());
     level->AddHero();
     iScene = new IndicatorScene();
-    iScene->getHealthBar()->setMaxHealth(100, 100);    for (int ii = 0; ii < 10; ++ii){
+    iScene->getHealthBar()->setMaxHealth(100, 100);
+    for (int ii = 0; ii < 10; ++ii){
         for (int j = 0; j < 10; ++j){
             cout << level->getCellAt(j, ii)->canWalkTo() << " ";
         }
         cout << endl;
     }
-
-    timer = new QTimer();
-    timer->setInterval(20);
-    connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
-    timer->start();
     j = 100;
+    level->updateLevel();
 }
 
 MainWindow::~MainWindow()
@@ -57,24 +57,19 @@ void MainWindow::timerEvent(){
 }
 
 void MainWindow::onTimer(){
-    cout << i++ << endl;
-    QPoint m = level->getPlayer()->getHero()->getCellPos();
-    if (level->getCellAt(m.x(), m.y())->getLandshaft()->color == Qt::darkGreen){
-        level->getPlayer()->getHero()->changeHealth(5, 0);
-        j -= 4;
-        if (j < 0)
-            j = 0;
-        iScene->getHealthBar()->setHealth(j);
+    if (level->getPlayer()->getHero()->getAliveProperty()){
+        if (level->CheckMoving()){
+            level->updateLevel();
+            cout << i++ << endl;
+            QPoint m = level->getPlayer()->getHero()->getCellPos();
+            j = level->getPlayer()->getHero()->getHealth();
+            iScene->getHealthBar()->setHealth(j);
+            //if (j == 0){
+            //    close();
+            //}
+        }
     }
     else{
-        level->getPlayer()->getHero()->changeHealth(0, 0);
-        j += 1;
-        if (j > 100)
-            j = 100;
-        iScene->getHealthBar()->setHealth(j);
-    }
-    level->updateLevel();
-    if (j == 0){
-        close();
+        newGame();
     }
 }

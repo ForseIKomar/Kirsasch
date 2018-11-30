@@ -1,0 +1,85 @@
+#include "computer.h"
+
+#include <iostream>
+using namespace std;
+
+Computer::Computer()
+{
+    monster = new SimplyMonster();
+    monster->setPriority(10);
+    monster->setMaxHealth(50);
+    monster->setWalkProperty(false);
+    matrix = NULL;
+    x = rand()%10;
+    y = rand()%10;
+    monster->setCellPos(x, y);
+}
+
+Computer::~Computer(){
+
+}
+
+void Computer::setField(CellsMatrix *matr){
+    matrix = matr;
+    matrix->addGameObject(monster, 6, 6);
+}
+
+void Computer::update(){
+    dx = 0;
+    dy = 0;
+    int dxx[4] = {1, 0, -1, 0};
+    int dyy[4] = {0, -1, 0, 1};
+    for (int i = 0; i < 4; ++i){
+        if ((x > 0) && (x < 9) && (y > 0) && (y < 9)){
+            QVector<LivingObject* > liv = matrix->getCellAt(x + dxx[i], y + dyy[i])->getLivings();
+            if (liv.size() > 0){
+                GameEvent *event;
+                event = new GameEvent();
+                event->AttackEvent(this->monster, liv[0], 20);
+                eQueue->AddEvent(event);
+            }
+        }
+    }
+    if (monster->getAliveProperty()){
+        if ((x + 1 < 10) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
+            dx = 1;
+        }
+        else if ((y + 1 < 10) && (matrix->getCellAt(x, y + 1)->canWalkTo())){
+            dy = 1;
+        }
+        else if (matrix->getCellAt(x - 1, y)->canWalkTo()){
+            dx = -1;
+        }
+        else if (matrix->getCellAt(x, y--)->canWalkTo()){
+            dy = -1;
+        }
+        if (abs(dx) + abs(dy) > 0){
+            cout << "x = " << x << " y = " << y << " ";
+            x += dx;
+            y += dy;
+            cout << "dx = " << dx << " dy = " << dy << endl;
+            GameEvent *event = new GameEvent();
+            event->MoveEvent(monster, QPoint(x, y));
+            eQueue->AddEvent(event);
+        }
+    }
+}
+
+void Computer::isUpdateDone(){
+    cout << "monster was at " << x - dx << " " << y - dy << " ";
+    cout << "monster must be at " << x << " " << y <<
+            " and monster at " << monster->getCellPos().x() << " "
+         << monster->getCellPos().y() << endl;
+    if ((monster->getCellPos().x() == x) && (monster->getCellPos().y() == y)){
+
+    }
+    else{
+        x = monster->getCellPos().x();
+        y = monster->getCellPos().y();
+        update();
+    }
+}
+
+SimplyMonster* Computer::getMonster(){
+    return monster;
+}

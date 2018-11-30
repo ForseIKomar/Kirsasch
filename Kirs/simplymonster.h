@@ -1,19 +1,19 @@
-#ifndef HERO_H
-#define HERO_H
+#ifndef SIMPLYMONSTER_H
+#define SIMPLYMONSTER_H
 
 #include <QObject>
 #include "livingobject.h"
 #include <QBrush>
 #include <QImage>
 
-class Hero: public LivingObject
+class SimplyMonster: public LivingObject
 {
 public:
-    explicit Hero();
-    ~Hero();
+    explicit SimplyMonster();
+    ~SimplyMonster();
 
 private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 };
 
-#endif // HERO_H
+#endif // SIMPLYMONSTER_H

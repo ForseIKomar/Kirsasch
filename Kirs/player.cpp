@@ -7,8 +7,9 @@ Player::Player()
     nextX = 0;
     nextY = 0;
     hero = new Hero();
-    hero->setColor(Qt::cyan);
     hero->setPriority(10);
+    hero->setMaxHealth(100);
+    eQueue = new EventQueue();
 }
 
 Player::~Player(){
@@ -17,21 +18,7 @@ Player::~Player(){
 
 QPoint Player::getNextMovingPoint(bool *needWalk){
     *needWalk = true;
-    if (nextX != x){
-        if (nextX > x){
-            return QPoint(++x, y);
-        }
-        else
-            return QPoint(--x, y);
-        }
-        if (nextY != y){
-            if (nextY > y)
-                return QPoint(x, ++y);
-            else
-                return QPoint(x, --y);
-    }
-    *needWalk = false;
-    return QPoint(x, y);
+    return QPoint(nextX, nextY);
 }
 
 void Player::setNextPoint(int x, int y){
@@ -41,4 +28,12 @@ void Player::setNextPoint(int x, int y){
 
 Hero* Player::getHero(){
     return hero;
+}
+
+void Player::update(){
+    if (hero->getAliveProperty()){
+        GameEvent *event = new GameEvent();
+        event->MoveEvent(hero, QPoint(nextX, nextY));
+        eQueue->AddEvent(event);
+    }
 }

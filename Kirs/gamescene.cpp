@@ -11,6 +11,7 @@ GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
     leftX = 0;
     leftY = 0;
     setSceneRect(0, 0, 12 * cellWidth, 10 * cellHeight);
+    readyAttack = false;
 }
 
 GameScene::~GameScene(){
@@ -28,23 +29,6 @@ void GameScene::render(QVector<GameObject *> objects){
     lastVect = m;
 }
 
-/*void GameScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-    int xx = (int)event->scenePos().x();
-    int yy = (int)event->scenePos().y();
-    if ((xx >= 0) && (yy >= 0) &&
-            (xx < colCount * cellWidth) && (yy < rowCount * cellHeight)){
-        xx /= cellWidth;
-        yy /= cellHeight;
-        lastClickPos->setX(xx);
-        lastClickPos->setY(yy);
-        cout << endl << "start" << endl;
-        cout << "ex = " << event->scenePos().x() << " ey = " << event->scenePos().y() << endl;
-        hasClicked = true;
-        cout << "x = " << lastClickPos->x() << " y = " << lastClickPos->y() << endl;
-    }
-    Q_UNUSED(event);
-}*/
-
 void GameScene::keyPressEvent(QKeyEvent *event){
     cout << "keyPressed: ";
     int dx = 0;
@@ -54,10 +38,15 @@ void GameScene::keyPressEvent(QKeyEvent *event){
         case Qt::Key_Left:{ dx = -1; cout << "left\n"; break; }
         case Qt::Key_Up:{ dy = -1; cout << "up\n"; break; }
         case Qt::Key_Down:{ dy = 1; cout << "down\n"; break; }
+        case Qt::Key_1:{ readyAttack = true; cout << "Attack!\n"; break; }
+        default: {readyAttack = false; cout << "Stop!\n"; break; }
     }
-    hasClicked = true;
-    lastClickPos->setX(dx);
-    lastClickPos->setY(dy);
+    if ((dx != 0) || (dy != 0)){
+        hasClicked = true;
+        lastClickPos->setX(dx);
+        lastClickPos->setY(dy);
+    }
+    cout << "readyAttack? " << readyAttack << endl;
 }
 
 QPoint* GameScene::getClickPos(){
@@ -67,6 +56,10 @@ QPoint* GameScene::getClickPos(){
     }
     else
         return NULL;
+}
+
+bool GameScene::checkAttack(){
+    return readyAttack;
 }
 
 void GameScene::setLeftPoint(int x, int y){

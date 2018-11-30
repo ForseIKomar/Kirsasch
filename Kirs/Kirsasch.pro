@@ -23,7 +23,13 @@ SOURCES += main.cpp\
     level.cpp \
     landshaft.cpp \
     indicatorscene.cpp \
-    healthbar.cpp
+    healthbar.cpp \
+    traponland.cpp \
+    computer.cpp \
+    eventqueue.cpp \
+    gameevent.cpp \
+    livingobject.cpp \
+    simplymonster.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -36,7 +42,14 @@ HEADERS  += mainwindow.h \
     level.h \
     landshaft.h \
     indicatorscene.h \
-    healthbar.h
+    healthbar.h \
+    traponland.h \
+    computer.h \
+    algorithm.h \
+    eventqueue.h \
+    gameevent.h \
+    livingobject.h \
+    simplymonster.h
 
 FORMS    += mainwindow.ui
 

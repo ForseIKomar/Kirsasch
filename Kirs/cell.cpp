@@ -33,37 +33,75 @@ int Cell::addGameObject(GameObject *object){
     if (!object->getWalkProperty()){
         canWalk = false;
     }
-    objects.push_back(object);
+    if (object->getObjectType() == GAME_OBJECT){
+        objects.push_back(object);
+    }
+    else if (object->getObjectType() == LIVING_OBJECT){
+        livings.push_back(static_cast<LivingObject *>(object));
+    }
     currObject = NULL;
     return objects.size() - 1;
 }
 
-GameObject* Cell::removeGameObject(int pos){
-    GameObject* res = NULL;
-    if ((pos < objects.size()) && (pos >= 0)){
-        res = objects[pos];
-        for (int i = pos; i < objects.size() - 1; ++i){
-            objects[i] = objects[i + 1];
-        }
-    }
-
-    if (!res->getWalkProperty()){
+int Cell::addTrap(TrapOnLand *trap){
+    if (!trap->getWalkProperty()){
         canWalk = false;
     }
-
-    objects.pop_back();
+    traps.push_back(trap);
     currObject = NULL;
-    return res;
+    return traps.size() - 1;
+}
+
+void Cell::removeGameObject(int pos, int type){
+    if (type == GAME_OBJECT){
+        GameObject* res = NULL;
+        if ((pos < objects.size()) && (pos >= 0)){
+            res = objects[pos];
+            for (int i = pos; i < objects.size() - 1; ++i){
+                objects[i] = objects[i + 1];
+            }
+        }
+
+        if (!res->getWalkProperty()){
+            canWalk = true;
+        }
+
+        objects.pop_back();
+        currObject = NULL;
+    }
+    if (type == LIVING_OBJECT){
+        LivingObject* res = NULL;
+        if ((pos < livings.size()) && (pos >= 0)){
+            res = livings[pos];
+            for (int i = pos; i < livings.size() - 1; ++i){
+                livings[i] = livings[i + 1];
+            }
+        }
+
+        if (!res->getWalkProperty()){
+            canWalk = true;
+        }
+
+        livings.pop_back();
+        currObject = NULL;
+    }
 }
 
 void Cell::removeGameObject(GameObject *object){
     int pos = -1;
-    for (int i = 0; i < objects.size(); ++i){
-        if (objects[i] == object)
-            pos = i;
+    if (object->getObjectType() == GAME_OBJECT){
+        for (int i = 0; i < objects.size(); ++i){
+            if (objects[i]->id == object->id)
+                pos = i;
+        }
+    }
+    else {
+        for (int i = 0; i < livings.size(); ++i)
+            if (livings[i]->id == object->id)
+                pos = i;
     }
     if (pos >= 0)
-        removeGameObject(pos);
+        removeGameObject(pos, object->getObjectType());
 }
 
 int Cell::getVectorSize(){
@@ -92,6 +130,29 @@ GameObject* Cell::getCurrentObject(){
     return currObject;
 }
 
+QVector<GameObject* > Cell::getObjects(){
+    QVector<GameObject* > t = objects;
+    for (int i = 0; i < traps.size(); ++i){
+        t.push_back(traps[i]);
+    }
+    for (int i = 0; i < livings.size(); ++i){
+        t.push_back(livings[i]);
+    }
+    return t;
+}
+
+QVector<TrapOnLand* > Cell::getTraps(){
+    return traps;
+}
+
 bool Cell::canWalkTo(){
     return canWalk;
+}
+
+QVector<LivingObject* > Cell::getLivings(){
+    return livings;
+}
+
+LivingObject* Cell::getLiving(int pos){
+    return livings[pos];
 }

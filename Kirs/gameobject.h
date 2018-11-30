@@ -4,6 +4,13 @@
 #include <QObject>
 #include <QGraphicsObject>
 
+enum{
+    GAME_OBJECT,
+    LIVING_OBJECT,
+    LANDSHAFT,
+    TRAP_OBJECT
+};
+
 class GameObject: public QGraphicsObject
 {
 public:
@@ -20,11 +27,16 @@ public:
     void setWalkProperty(bool canWalk);
     bool getWalkProperty();
 
+    int getObjectType();
+    int id;
+
 private:
     QRectF boundingRect() const;
+
+protected:
+    int type;
     int x, y;
     int priority;
-    int id;
     bool canWalkThrow;
 };
 

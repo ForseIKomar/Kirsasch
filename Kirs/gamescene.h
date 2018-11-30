@@ -19,12 +19,15 @@ public:
     void render(QVector<GameObject *> objects);
 
     QPoint* getClickPos();
+    bool    checkAttack();
 
     //void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     void keyPressEvent(QKeyEvent *event);
 
     void setLeftPoint(int x, int y);
+
+    bool readyAttack;
 
 private:
     QVector<GameObject *> lastVect;
