@@ -20,6 +20,10 @@ public:
     SimplyMonster* getMonster();
 
 private:
+    bool moveAction();
+    bool attackAction();
+
+private:
     SimplyMonster* monster;
     int x, y;
     int nX, nY;

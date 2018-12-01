@@ -27,12 +27,19 @@ void Computer::setField(CellsMatrix *matr){
 void Computer::update(){
     dx = 0;
     dy = 0;
+    if (!attackAction())
+        moveAction();
+}
+
+bool Computer::attackAction(){
+    bool t = false;
     int dxx[4] = {1, 0, -1, 0};
     int dyy[4] = {0, -1, 0, 1};
     for (int i = 0; i < 4; ++i){
         if ((x > 0) && (x < 9) && (y > 0) && (y < 9)){
             QVector<LivingObject* > liv = matrix->getCellAt(x + dxx[i], y + dyy[i])->getLivings();
             if (liv.size() > 0){
+                t = true;
                 GameEvent *event;
                 event = new GameEvent();
                 event->AttackEvent(this->monster, liv[0], 20);
@@ -40,6 +47,11 @@ void Computer::update(){
             }
         }
     }
+    return t;
+}
+
+bool Computer::moveAction(){
+    bool t = false;
     if (monster->getAliveProperty()){
         if ((x + 1 < 10) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
             dx = 1;
@@ -54,6 +66,7 @@ void Computer::update(){
             dy = -1;
         }
         if (abs(dx) + abs(dy) > 0){
+            t = true;
             cout << "x = " << x << " y = " << y << " ";
             x += dx;
             y += dy;
@@ -63,6 +76,7 @@ void Computer::update(){
             eQueue->AddEvent(event);
         }
     }
+    return t;
 }
 
 void Computer::isUpdateDone(){

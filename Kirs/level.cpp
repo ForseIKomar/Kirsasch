@@ -54,9 +54,6 @@ void Level::updateLevel(){
     enemy->update();
     enemy2->update();
 
-
-    objects.clear();
-    objects = field->getAllObjects();
     GameEvent* nextEvent = NULL;
     while (nextEvent = events->getNextEvent()){
        activateEvent(nextEvent);
@@ -66,10 +63,15 @@ void Level::updateLevel(){
     while (nextEvent = events->getNextEvent()){
         activateEvent(nextEvent);
      }
+    render();
+}
+
+void Level::render(){
+    objects.clear();
+    objects = field->getAllObjects();
     cout << "Count of redrawed objects: " << objects.size() << endl;
     graphics->render(objects);
     cout << "End of update\n";
-
 }
 
 void Level::checkTraps(LivingObject *object){
@@ -147,11 +149,13 @@ Player* Level::getPlayer(){
 void Level::activateEvent(GameEvent *event){
     switch (event->command){
     case COMMAND_ATTACK:{
-        event->reciever->changeHealth(event->damage);
-        if (event->reciever->getHealth() <= 0){
-            GameEvent *event2 = new GameEvent();
-            event2->KillEvent(event->sender, event->reciever);
-            events->AddEvent(event2);
+        if (event->sender->getAliveProperty()){
+            event->reciever->changeHealth(event->damage);
+            if (event->reciever->getHealth() <= 0){
+                GameEvent *event2 = new GameEvent();
+                event2->KillEvent(event->sender, event->reciever);
+                events->AddEvent(event2);
+            }
         }
         break;
     };

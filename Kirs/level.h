@@ -37,6 +37,8 @@ public:
     bool CheckMoving();
     void moveHero();
 
+    void render();
+
     GameScene* getGraphics();
     Cell* getCellAt(int x, int y);
     Player* getPlayer();
