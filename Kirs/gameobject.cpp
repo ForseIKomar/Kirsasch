@@ -1,5 +1,4 @@
 #include "gameobject.h"
-#include "main_settings.h"
 
 GameObject::GameObject():
     QGraphicsObject()

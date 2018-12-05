@@ -4,13 +4,14 @@
 #include <QMainWindow>
 #include <QTimer>
 
+#include "dialog.h"
 #include "hero.h"
 #include "level.h"
 #include "QTimer"
 #include "player.h"
 #include "gamescene.h"
 #include "indicatorscene.h"
-
+#include "menuscene.h"
 #include "healthbar.h"
 
 namespace Ui {
@@ -30,6 +31,8 @@ public:
 
 public slots:
     void onTimer();
+    void start();
+    void OpenMenu();
 
 private:
     Ui::MainWindow *ui;
@@ -39,8 +42,9 @@ private:
     QTimer *timer;
     Hero *hero;
     IndicatorScene *iScene;
-
+    Dialog *dial;
     HealthBar *h;
+    MenuScene *menu;
 
     int i, j;
 };

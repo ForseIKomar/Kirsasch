@@ -39,7 +39,7 @@ void TrapOnLand::setTrap(int actDamage, bool twoMoreWork, int coWork){
 
 void TrapOnLand::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
     if ((alwaysWork) || ((!alwaysWork) && (health > 0))){
-        painter->drawPixmap(0, 0, 50, 50, QPixmap(":/img/31.png"));
+        painter->drawPixmap(0, 0, cellWidth, cellWidth, QPixmap(":/img/31.png"));
     }
     Q_UNUSED(option);
     Q_UNUSED(widget)

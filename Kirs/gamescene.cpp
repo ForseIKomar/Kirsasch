@@ -12,9 +12,23 @@ GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
     leftY = 0;
     setSceneRect(0, 0, 12 * cellWidth, 10 * cellHeight);
     readyAttack = false;
+
+    //context menu
+    grayScreen = new QGraphicsRectItem();
+    grayScreen->setOpacity(0.5);
+    grayScreen->setBrush(Qt::black);
+    grayScreen->setRect(0, 0, 12 * cellWidth, 10 * cellHeight);
 }
 
 GameScene::~GameScene(){
+
+}
+
+void GameScene::openContextMenu(){
+    this->addItem(grayScreen);
+}
+
+void GameScene::closeContextMenu(){
 
 }
 
@@ -39,7 +53,13 @@ void GameScene::keyPressEvent(QKeyEvent *event){
         case Qt::Key_Up:{ dy = -1; cout << "up\n"; break; }
         case Qt::Key_Down:{ dy = 1; cout << "down\n"; break; }
         case Qt::Key_1:{ readyAttack = true; cout << "Attack!\n"; break; }
+        case Qt::Key_Escape:{
+            openContextMenu();
+            //emit(OpenMainMenu());
+            break;
+        }
         default: {readyAttack = false; cout << "Stop!\n"; break; }
+
     }
     if ((dx != 0) || (dy != 0)){
         hasClicked = true;

@@ -28,7 +28,11 @@ void Landshaft::setImage(QPixmap image){
 void Landshaft::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
 
     if (pix){
-        painter->drawPixmap(0, 0, 50, 50, *pix);
+        painter->drawPixmap(0, 0, cellWidth, cellWidth, *pix);
+    }
+    else{
+        painter->setBrush(Qt::red);
+        painter->drawRect(0, 0, cellWidth, cellWidth);
     }
     Q_UNUSED(widget);
     Q_UNUSED(option);

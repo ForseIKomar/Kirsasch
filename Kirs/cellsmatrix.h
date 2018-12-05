@@ -17,6 +17,7 @@ public:
     void generateMatrix(int w, int h);
 
     void fillMatrix();
+    bool dfs(int x, int y);
 
     int addGameObject(GameObject* object, int x, int y);
     void removeGameObject(int x, int y, GameObject* object);

@@ -15,7 +15,7 @@ Hero::~Hero(){
 }
 
 void Hero::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget){
-    painter->drawPixmap(1, 1, 49, 49, QPixmap(":/img/2.png"));
+    painter->drawPixmap(1, 1, cellWidth - 1, cellWidth - 1, QPixmap(":/img/2.png"));
     Q_UNUSED(widget);
     Q_UNUSED(option);
 }

@@ -3,12 +3,19 @@
 
 #include <QObject>
 #include <QGraphicsObject>
+#include "main_settings.h"
 
 enum{
     GAME_OBJECT,
     LIVING_OBJECT,
     LANDSHAFT,
     TRAP_OBJECT
+};
+
+enum {
+    WALL,
+    SPIKES,
+    GROUND
 };
 
 class GameObject: public QGraphicsObject

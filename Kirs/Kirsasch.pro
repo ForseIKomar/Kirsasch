@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     eventqueue.cpp \
     gameevent.cpp \
     livingobject.cpp \
-    simplymonster.cpp
+    simplymonster.cpp \
+    dialog.cpp \
+    menuscene.cpp \
+    menubutton.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -49,9 +52,13 @@ HEADERS  += mainwindow.h \
     eventqueue.h \
     gameevent.h \
     livingobject.h \
-    simplymonster.h
+    simplymonster.h \
+    dialog.h \
+    menuscene.h \
+    menubutton.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    dialog.ui
 
 RESOURCES += \
     hero.qrc

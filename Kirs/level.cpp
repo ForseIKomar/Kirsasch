@@ -88,8 +88,9 @@ void Level::checkTraps(LivingObject *object){
 }
 
 void Level::generateField(){
-    field->generateMatrix(rowCount, colCount);
+    field->generateMatrix(colCount, rowCount);
     field->fillMatrix();
+    cout << " 3 " << endl;
 }
 
 bool Level::CheckMoving(){
@@ -98,7 +99,7 @@ bool Level::CheckMoving(){
         cout << "Coords:" << p->x() << " " << p->y() << endl;
         int x = p->x() + player->getHero()->getCellPos().x();
         int y = p->y() + player->getHero()->getCellPos().y();
-        if (!((x < 0) || (x >= rowCount) || (y < 0) || (y >= colCount))){
+        if (!((x < 0) || (x >= colCount) || (y < 0) || (y >= rowCount))){
         if (graphics->checkAttack()){
             QVector<LivingObject* > m = field->getCellAt(x, y)->getLivings();
             for (int i = 0; i < m.size(); ++i){
@@ -162,8 +163,9 @@ void Level::activateEvent(GameEvent *event){
     case COMMAND_MOVE:{
         cout << "MoveEvent from (" << event->sender->getCellPos().x() << ", " << event->sender->getCellPos().y()
              << ") to (" << event->movingPoint.x() << ", " << event->movingPoint.y() << ")" << " isClosednow?: ";
-        cout << field->getCellAt(event->movingPoint.x(), event->movingPoint.y())->canWalkTo();
-        if (field->getCellAt(event->movingPoint.x(), event->movingPoint.y())->canWalkTo()){
+        //cout << field->getCellAt(event->movingPoint.x(), event->movingPoint.y())->canWalkTo();
+        Cell* cell = field->getCellAt(event->movingPoint.x(), event->movingPoint.y());
+        if (cell && (cell->canWalkTo())){
             cout << endl;
             this->MoveGameObject(event->sender, event->movingPoint);
             checkTraps(event->sender);
