@@ -1,5 +1,4 @@
 #include "gameobject.h"
-#include "main_settings.h"
 
 GameObject::GameObject():
     QGraphicsObject()
@@ -10,14 +9,20 @@ GameObject::GameObject():
     nextId++;
     this->setZValue(0);
     canWalkThrow = true;
+    type = GAME_OBJECT;
 }
 
 GameObject::~GameObject(){
 
 }
 
+int GameObject::getObjectType(){
+    return type;
+}
+
 void GameObject::setPriority(int prir){
     priority = prir;
+    setZValue(prir);
 }
 
 int GameObject::getPrioriy(){

@@ -3,6 +3,20 @@
 
 #include <QObject>
 #include <QGraphicsObject>
+#include "main_settings.h"
+
+enum{
+    GAME_OBJECT,
+    LIVING_OBJECT,
+    LANDSHAFT,
+    TRAP_OBJECT
+};
+
+enum {
+    WALL,
+    SPIKES,
+    GROUND
+};
 
 class GameObject: public QGraphicsObject
 {
@@ -20,11 +34,16 @@ public:
     void setWalkProperty(bool canWalk);
     bool getWalkProperty();
 
+    int getObjectType();
+    int id;
+
 private:
     QRectF boundingRect() const;
+
+protected:
+    int type;
     int x, y;
     int priority;
-    int id;
     bool canWalkThrow;
 };
 

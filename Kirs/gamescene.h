@@ -19,6 +19,7 @@ public:
     void render(QVector<GameObject *> objects);
 
     QPoint* getClickPos();
+    bool    checkAttack();
 
     //void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
@@ -26,11 +27,24 @@ public:
 
     void setLeftPoint(int x, int y);
 
+    void openContextMenu();
+
+    void closeContextMenu();
+
+    bool readyAttack;
+
+signals:
+    void OpenMainMenu();
+
 private:
     QVector<GameObject *> lastVect;
     QPoint* lastClickPos;
     bool hasClicked;
     int leftX, leftY;
+
+// for contextMenu
+private:
+    QGraphicsRectItem *grayScreen;
 };
 
 #endif // GAMESCENE_H

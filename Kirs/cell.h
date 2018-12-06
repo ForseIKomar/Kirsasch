@@ -4,6 +4,7 @@
 #include <QVector>
 #include "gameobject.h"
 #include "landshaft.h"
+#include "traponland.h"
 class Cell
 {
 public:
@@ -12,13 +13,18 @@ public:
 
 public:
     int addGameObject(GameObject *object);
-    GameObject* removeGameObject(int pos);
+    int addTrap(TrapOnLand *trap);
+    void removeGameObject(int pos, int type);
     void removeGameObject(GameObject *object);
 
     void setPosition(int x, int y);
     int getVectorSize();
     GameObject* getObjectAt(int pos);
     GameObject* getCurrentObject();
+    LivingObject* getLiving(int pos);
+    QVector<GameObject* > getObjects();
+    QVector<TrapOnLand* > getTraps();
+    QVector<LivingObject* > getLivings();
 
     void setLandshaft(Landshaft* landsh);
     Landshaft* getLandshaft();
@@ -26,6 +32,8 @@ public:
 
 private:
     QVector<GameObject *> objects;
+    QVector<TrapOnLand *> traps;
+    QVector<LivingObject *> livings;
     GameObject* currObject;
     Landshaft* land;
     int x, y;

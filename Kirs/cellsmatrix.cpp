@@ -1,6 +1,9 @@
 #include "cellsmatrix.h"
 #include "cstdlib"
 #include "ctime"
+#include <iostream>
+
+using namespace std;
 
 CellsMatrix::CellsMatrix()
 {
@@ -26,11 +29,76 @@ void CellsMatrix::generateMatrix(int w, int h){
     hSize = h;
 }
 
+bool CellsMatrix::dfs(int x, int y){
+    bool **mas = new bool*[wSize];
+    for (int i = 0; i < wSize; ++i)
+        mas[i] = new bool[hSize];
+    for (int i = 0; i < wSize; ++i)
+        for (int j = 0; j < hSize; ++j)
+            mas[i][j] = false;
+    mas[x][y] = false;
+    int xar[4] = {1, 0, -1, 0};
+    int yar[4] = {0, -1, 0, 1};
+    QVector<QPoint> stack;
+    bool t = true;
+    int count = 0;
+    for (int i = 0; i < 4; ++i){
+        int xx = x + xar[i];
+        int yy = y + yar[i];
+        if ((xx >= 0) && (xx < wSize) && (yy >= 0) && (yy < hSize)){
+            if (getCellAt(xx, yy)->canWalkTo()){
+                count++;
+                if (t){
+                    t = false;
+                    stack.push_back(QPoint(xx, yy));
+                    mas[xx][yy] = true;
+                }
+            }
+        }
+    }
+    if (count <= 1)
+        return true;
+    int i = 0;
+    while (i < stack.size()){
+        cout << i << " ";
+        for (int j = 0; j < 4; ++j){
+            int xx = stack[i].x() + xar[j];
+            int yy = stack[i].y() + yar[j];
+            if ((xx >= 0) && (xx < 5) && (yy >= 0) && (yy < 5)){
+                if (getCellAt(xx, yy)->canWalkTo()){
+                    cout << 1;
+                    if (!(mas[xx][yy])){
+                        cout << "1";
+                        stack.push_back(QPoint(xx, yy));
+                        cout << "1";
+                        mas[xx][yy] = true;
+                        cout << "1";
+                    }
+                }
+                cout << endl;
+            }
+            i++;
+        }
+    }
+    t = false;
+    for (int i = 0; i < 4; ++i){
+        int xx = x + xar[i];
+        int yy = y + yar[i];
+        if ((xx >= 0) && (xx < wSize) && (yy >= 0) && (yy < hSize))
+            t = t && (mas[xx][yy] || !getCellAt(xx, yy)->canWalkTo());
+    }
+    return t;
+}
+
 Cell* CellsMatrix::getCellAt(int x, int y){
-    if ((matrix.size() > y) && (matrix[y].size() > x))
+    if ((x < wSize) && (y < hSize))
         return matrix[x][y];
     else
         return NULL;
+}
+
+Cell* CellsMatrix::getCellAt(QPoint point){
+    return this->getCellAt(point.x(), point.y());
 }
 
 void CellsMatrix::fillMatrix(){
@@ -41,16 +109,31 @@ void CellsMatrix::fillMatrix(){
    for (int i = 0; i < hSize; ++i){
        for (int j = 0; j < wSize; ++j){
             Landshaft *m = new Landshaft();
-            int k = rand()%3;
+            int k = rand() % 3;
             m->setColor(brush[k]);
             m->setPriority(0);
             m->setCellPos(i, j);
             if (k == 1){
-                m->setImage(QPixmap(":/img/wall.png"));
-                m->setWalkProperty(false);
+                if ((i > 0) && (j > 0) && (i < 18) && (rand() % 2)){
+                    m->setImage(QPixmap(":/img/wall.png"));
+                    m->setWalkProperty(false);
+                }
+                else{
+                    k = 2;
+                    m->setWalkProperty(false);
+                }
             }
             else
                 m->setWalkProperty(true);
+            if (k == 0){
+                m->setImage(QPixmap(":/img/ground.png"));
+                TrapOnLand *trap = new TrapOnLand();
+                trap->setTrap(rand()%10 , false, 3);
+                trap->setCellPos(i, j);
+                matrix[i][j]->addTrap(trap);
+            }
+            if (k == 2)
+                m->setImage(QPixmap(":/img/ground.png"));
             matrix[i][j]->setLandshaft(m);
        }
    }
@@ -64,17 +147,6 @@ int CellsMatrix::addGameObject(GameObject *object, int x, int y){
         return 0;
 }
 
-int CellsMatrix::moveGameObject(int x_from, int y_from, int pos_from, int x, int y){
-    int res = matrix[x][y]->addGameObject(matrix[x_from][y_from]->getObjectAt(pos_from));
-    matrix[x][y]->getObjectAt(pos_from)->setCellPos(x, y);
-    matrix[x_from][y_from]->removeGameObject(pos_from);
-    return res;
-}
-
-void CellsMatrix::removeGameObject(int x, int y, int pos){
-    matrix[x][y]->removeGameObject(pos);
-}
-
 void CellsMatrix::removeGameObject(int x, int y, GameObject *object){
     matrix[x][y]->removeGameObject(object);
 }
@@ -83,10 +155,10 @@ QVector <GameObject *> CellsMatrix::getAllObjects(){
     QVector <GameObject *> resultVector;
     for (int i = 0; i < hSize; ++i){
         for (int j = 0; j < wSize; ++j){
-            GameObject* obj = matrix[i][j]->getCurrentObject();
+            QVector<GameObject*> objs = matrix[i][j]->getObjects();
             GameObject* land = matrix[i][j]->getLandshaft();
-            if (obj)
-                resultVector.push_back(obj);
+            for (int i = 0; i < objs.size(); ++i)
+                resultVector.push_back(objs[i]);
             if (land)
                 resultVector.push_back(land);
         }

@@ -4,6 +4,7 @@
 #include <QVector>
 #include <QPoint>
 #include "hero.h"
+#include "eventqueue.h"
 
 class Player
 {
@@ -15,10 +16,13 @@ public:
     QPoint getNextMovingPoint(bool *needWalk);
     Hero* getHero();
 
+    void update();
+
 private:
     Hero *hero;
     int x, y;
     int nextX, nextY;
+    EventQueue *eQueue;
 };
 
 #endif // PLAYER_H

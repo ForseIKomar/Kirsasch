@@ -6,6 +6,7 @@
 #include "cell.h"
 #include "hero.h"
 #include "landshaft.h"
+#include "traponland.h"
 
 class CellsMatrix
 {
@@ -16,13 +17,13 @@ public:
     void generateMatrix(int w, int h);
 
     void fillMatrix();
+    bool dfs(int x, int y);
 
     int addGameObject(GameObject* object, int x, int y);
-    int moveGameObject(int x_from, int y_from, int pos_from, int x, int y);
-    void removeGameObject(int x, int y, int pos);
     void removeGameObject(int x, int y, GameObject* object);
 
     Cell* getCellAt(int x, int y);
+    Cell* getCellAt(QPoint point);
 
     QVector<GameObject *> getAllObjects();
 

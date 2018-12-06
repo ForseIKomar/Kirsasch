@@ -8,6 +8,10 @@
 #include "cellsmatrix.h"
 #include "player.h"
 #include "indicatorscene.h"
+#include "traponland.h"
+#include "computer.h"
+
+#include "eventqueue.h"
 
 class Level
 {
@@ -23,14 +27,17 @@ public:
     void MoveGameObject(GameObject *object, QPoint to);
 
     void RemoveGameObject(GameObject *object);
-    void RemoveGameObject(int x, int y, int pos);
 
     void updateLevel();
+    void activateEvent(GameEvent* event);
 
     void AddHero();
+    void checkTraps(LivingObject *object);
 
-    void CheckMoving();
+    bool CheckMoving();
     void moveHero();
+
+    void render();
 
     GameScene* getGraphics();
     Cell* getCellAt(int x, int y);
@@ -43,6 +50,8 @@ private:
     GameScene*          graphics;
     Player*             player;
     IndicatorScene*     indicators;
+    Computer*           enemy, *enemy2;
+    EventQueue*         events;
 
     QVector<GameObject *> objects;
 };
