@@ -88,9 +88,12 @@ void Level::checkTraps(LivingObject *object){
 }
 
 void Level::generateField(){
+    cout << 2;
     field->generateMatrix(colCount, rowCount);
+    cout << 2;
+
     field->fillMatrix();
-    cout << " 3 " << endl;
+    cout << 2;
 }
 
 bool Level::CheckMoving(){

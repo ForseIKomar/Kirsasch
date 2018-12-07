@@ -20,7 +20,7 @@ void CellsMatrix::generateMatrix(int w, int h){
         QVector<Cell *> cVect;
         for (int j = 0; j < w; ++j){
             Cell *c = new Cell();
-            c->setPosition(j, i);
+            c->setPosition(i, j);
             cVect.push_back(c);
         }
         matrix.push_back(cVect);
@@ -60,22 +60,16 @@ bool CellsMatrix::dfs(int x, int y){
         return true;
     int i = 0;
     while (i < stack.size()){
-        cout << i << " ";
         for (int j = 0; j < 4; ++j){
             int xx = stack[i].x() + xar[j];
             int yy = stack[i].y() + yar[j];
             if ((xx >= 0) && (xx < 5) && (yy >= 0) && (yy < 5)){
                 if (getCellAt(xx, yy)->canWalkTo()){
-                    cout << 1;
                     if (!(mas[xx][yy])){
-                        cout << "1";
                         stack.push_back(QPoint(xx, yy));
-                        cout << "1";
                         mas[xx][yy] = true;
-                        cout << "1";
                     }
                 }
-                cout << endl;
             }
             i++;
         }
@@ -92,7 +86,7 @@ bool CellsMatrix::dfs(int x, int y){
 
 Cell* CellsMatrix::getCellAt(int x, int y){
     if ((x < wSize) && (y < hSize))
-        return matrix[x][y];
+        return matrix[y][x];
     else
         return NULL;
 }
@@ -112,11 +106,11 @@ void CellsMatrix::fillMatrix(){
             int k = rand() % 3;
             m->setColor(brush[k]);
             m->setPriority(0);
-            m->setCellPos(i, j);
+            m->setCellPos(j, i);
             if (k == 1){
-                if ((i > 0) && (j > 0) && (i < 18) && (rand() % 2)){
+                if (rand() % 3){
                     m->setImage(QPixmap(":/img/wall.png"));
-                    m->setWalkProperty(false);
+                    m->setWalkProperty(true);
                 }
                 else{
                     k = 2;
@@ -129,7 +123,7 @@ void CellsMatrix::fillMatrix(){
                 m->setImage(QPixmap(":/img/ground.png"));
                 TrapOnLand *trap = new TrapOnLand();
                 trap->setTrap(rand()%10 , false, 3);
-                trap->setCellPos(i, j);
+                trap->setCellPos(j, i);
                 matrix[i][j]->addTrap(trap);
             }
             if (k == 2)
@@ -142,13 +136,13 @@ void CellsMatrix::fillMatrix(){
 int CellsMatrix::addGameObject(GameObject *object, int x, int y){
     object->setCellPos(x, y);
     if ((matrix.size() > y) && (matrix[y].size() > x))
-        return matrix[x][y]->addGameObject(object);
+        return matrix[y][x]->addGameObject(object);
     else
         return 0;
 }
 
 void CellsMatrix::removeGameObject(int x, int y, GameObject *object){
-    matrix[x][y]->removeGameObject(object);
+    matrix[y][x]->removeGameObject(object);
 }
 
 QVector <GameObject *> CellsMatrix::getAllObjects(){

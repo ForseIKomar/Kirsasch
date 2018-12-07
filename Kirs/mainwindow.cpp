@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include "main_settings.h"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    srand(time(NULL));
     newGame();
     cout << "A" << endl;
     ui->graphicsView->setGeometry(0, 0, 14 * cellWidth, 12 * cellHeight);
@@ -48,15 +50,18 @@ void MainWindow::OpenMenu(){
 }
 
 void MainWindow::newGame(){
+    cout << 1;
     level = new Level();
+    cout << 1;
     i = 0;
     level->generateField();
+    cout << 1;
     ui->graphicsView->setScene(level->getGraphics());
     level->AddHero();
     iScene = new IndicatorScene();
     iScene->getHealthBar()->setMaxHealth(100, 100);
-    for (int ii = 0; ii < colCount; ++ii){
-        for (int j = 0; j < rowCount; ++j){
+    for (int ii = 0; ii < rowCount; ++ii){
+        for (int j = 0; j < colCount; ++j){
             cout << level->getCellAt(j, ii)->canWalkTo() << " ";
         }
         cout << endl;
@@ -64,6 +69,7 @@ void MainWindow::newGame(){
     cout << 5;
     j = 100;
     level->updateLevel();
+    cout << 1;
 }
 
 MainWindow::~MainWindow()

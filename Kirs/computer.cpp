@@ -10,8 +10,8 @@ Computer::Computer()
     monster->setMaxHealth(50);
     monster->setWalkProperty(false);
     matrix = NULL;
-    x = rand()%10;
-    y = rand()%10;
+    x = 0;
+    y = 0;
     monster->setCellPos(x, y);
 }
 
@@ -20,8 +20,14 @@ Computer::~Computer(){
 }
 
 void Computer::setField(CellsMatrix *matr){
-    matrix = matr;
-    matrix->addGameObject(monster, 6, 6);
+    matrix = matr;/*
+    do{
+        x = rand() % colCount;
+        y = rand() % rowCount;
+    }while (!matrix->getCellAt(x, y)->canWalkTo());*/
+    x = 1;
+    y = 1;
+    matrix->addGameObject(monster, x, y);
 }
 
 void Computer::update(){
