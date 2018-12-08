@@ -36,4 +36,5 @@ void Player::update(){
         event->MoveEvent(hero, QPoint(nextX, nextY));
         eQueue->AddEvent(event);
     }
+    hero->changeHealth(0, 100);
 }

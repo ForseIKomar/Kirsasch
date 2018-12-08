@@ -59,10 +59,10 @@ bool Computer::attackAction(){
 bool Computer::moveAction(){
     bool t = false;
     if (monster->getAliveProperty()){
-        if ((x + 1 < 10) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
+        if ((x + 1 < 4) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
             dx = 1;
         }
-        else if ((y + 1 < 10) && (matrix->getCellAt(x, y + 1)->canWalkTo())){
+        else if ((y + 1 < 5) && (matrix->getCellAt(x, y + 1)->canWalkTo())){
             dy = 1;
         }
         else if (matrix->getCellAt(x - 1, y)->canWalkTo()){

@@ -14,11 +14,11 @@ Level::Level()
     indicators = new IndicatorScene();
     enemy = new Computer();
     enemy->setField(field);
-    enemy2 = new Computer();
-    enemy2->setField(field);
+    //enemy2 = new Computer();
+    //enemy2->setField(field);
     events = new EventQueue();
     AddGameObject(enemy->getMonster(), enemy->getMonster()->getCellPos().x(), enemy->getMonster()->getCellPos().y());
-    AddGameObject(enemy2->getMonster(), enemy2->getMonster()->getCellPos().x(), enemy2->getMonster()->getCellPos().y());
+    //AddGameObject(enemy2->getMonster(), enemy2->getMonster()->getCellPos().x(), enemy2->getMonster()->getCellPos().y());
 }
 
 Level::~Level(){
@@ -52,14 +52,14 @@ void Level::updateLevel(){
     cout << "\nStart updating\n";
     moveHero();
     enemy->update();
-    enemy2->update();
+    //enemy2->update();
 
     GameEvent* nextEvent = NULL;
     while (nextEvent = events->getNextEvent()){
        activateEvent(nextEvent);
     }
-    enemy->isUpdateDone();
-    enemy2->isUpdateDone();
+    //enemy->isUpdateDone();
+    //enemy2->isUpdateDone();
     while (nextEvent = events->getNextEvent()){
         activateEvent(nextEvent);
      }
@@ -98,12 +98,17 @@ void Level::generateField(){
 
 bool Level::CheckMoving(){
     QPoint* p = graphics->getClickPos();
+
     if (p != NULL){
         cout << "Coords:" << p->x() << " " << p->y() << endl;
+        cout << "X";
         int x = p->x() + player->getHero()->getCellPos().x();
+        cout << "Y";
         int y = p->y() + player->getHero()->getCellPos().y();
         if (!((x < 0) || (x >= colCount) || (y < 0) || (y >= rowCount))){
+            cout << 2;
         if (graphics->checkAttack()){
+            cout << 2 << endl;
             QVector<LivingObject* > m = field->getCellAt(x, y)->getLivings();
             for (int i = 0; i < m.size(); ++i){
                 if (m[i]->getObjectType() == LIVING_OBJECT){
@@ -166,7 +171,7 @@ void Level::activateEvent(GameEvent *event){
     case COMMAND_MOVE:{
         cout << "MoveEvent from (" << event->sender->getCellPos().x() << ", " << event->sender->getCellPos().y()
              << ") to (" << event->movingPoint.x() << ", " << event->movingPoint.y() << ")" << " isClosednow?: ";
-        //cout << field->getCellAt(event->movingPoint.x(), event->movingPoint.y())->canWalkTo();
+
         Cell* cell = field->getCellAt(event->movingPoint.x(), event->movingPoint.y());
         if (cell && (cell->canWalkTo())){
             cout << endl;
