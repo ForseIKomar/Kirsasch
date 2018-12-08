@@ -29,29 +29,35 @@ void CellsMatrix::generateMatrix(int w, int h){
     hSize = h;
 }
 
-bool CellsMatrix::dfs(int x, int y){
-    bool **mas = new bool*[wSize];
-    for (int i = 0; i < wSize; ++i)
-        mas[i] = new bool[hSize];
-    for (int i = 0; i < wSize; ++i)
-        for (int j = 0; j < hSize; ++j)
-            mas[i][j] = false;
-    mas[x][y] = false;
-    int xar[4] = {1, 0, -1, 0};
-    int yar[4] = {0, -1, 0, 1};
-    QVector<QPoint> stack;
+const int wSize = 4;
+const int hSize = 7;
+const int xar[4] = { 1, 0, -1, 0 };
+const int yar[4] = { 0, -1, 0, 1 };
+
+bool CellsMatrix::dfs(int x, int y, bool** lastMas){
+    int **mas = new int*[hSize];
+    for (int i = 0; i < hSize; ++i)
+        mas[i] = new int[wSize];
+    for (int i = 0; i < hSize; ++i) {
+        for (int j = 0; j < wSize; ++j) {
+            mas[i][j] = lastMas[i][j] * 2;
+        }
+    }
+    mas[y][x] = 2;
+    vector<int> vx, vy;
     bool t = true;
     int count = 0;
     for (int i = 0; i < 4; ++i){
         int xx = x + xar[i];
         int yy = y + yar[i];
         if ((xx >= 0) && (xx < wSize) && (yy >= 0) && (yy < hSize)){
-            if (getCellAt(xx, yy)->canWalkTo()){
+            if (mas[yy][xx] == 0){
                 count++;
                 if (t){
                     t = false;
-                    stack.push_back(QPoint(xx, yy));
-                    mas[xx][yy] = true;
+                    vx.push_back(xx);
+                    vy.push_back(yy);
+                    mas[yy][xx] = true;
                 }
             }
         }
@@ -59,33 +65,55 @@ bool CellsMatrix::dfs(int x, int y){
     if (count <= 1)
         return true;
     int i = 0;
-    while (i < stack.size()){
+    int k = vx.size();
+    while (i < k){
         for (int j = 0; j < 4; ++j){
-            int xx = stack[i].x() + xar[j];
-            int yy = stack[i].y() + yar[j];
-            if ((xx >= 0) && (xx < 5) && (yy >= 0) && (yy < 5)){
-                if (getCellAt(xx, yy)->canWalkTo()){
-                    if (!(mas[xx][yy])){
-                        stack.push_back(QPoint(xx, yy));
-                        mas[xx][yy] = true;
-                    }
+            int xx = vx[i] + xar[j];
+            int yy = vy[i] + yar[j];
+            if ((xx >= 0) && (xx < wSize) && (yy >= 0) && (yy < hSize)){
+                if (mas[yy][xx] == 0){
+                    vx.push_back(xx);
+                    vy.push_back(yy);
+                    k++;
+                    mas[yy][xx] = true;
                 }
             }
-            i++;
         }
+        i++;
     }
-    t = false;
+    t = true;
     for (int i = 0; i < 4; ++i){
         int xx = x + xar[i];
         int yy = y + yar[i];
         if ((xx >= 0) && (xx < wSize) && (yy >= 0) && (yy < hSize))
-            t = t && (mas[xx][yy] || !getCellAt(xx, yy)->canWalkTo());
+            if (mas[yy][xx] == 0)
+                t = false;
     }
     return t;
 }
 
+bool** CellsMatrix::placeWalls() {
+    bool **mas = new bool*[hSize];
+    for (int i = 0; i < hSize; ++i)
+        mas[i] = new bool[wSize];
+    for (int i = 0; i < hSize; ++i)
+        for (int j = 0; j < wSize; ++j)
+            mas[i][j] = false;
+    for (int k = 0; k < 5; ++k)
+    for (int i = 0; i < hSize; ++i) {
+        for (int j = 0; j < wSize; ++j) {
+            if (rand() % 6 == 0) {
+                mas[i][j] = dfs(j, i, mas);
+            }
+        }
+    }
+
+    return mas;
+}
+
+
 Cell* CellsMatrix::getCellAt(int x, int y){
-    if ((x < wSize) && (y < hSize))
+    if ((x < wSize) && (y < hSize) && (x >= 0) && (y >= 0))
         return matrix[y][x];
     else
         return NULL;
@@ -96,6 +124,36 @@ Cell* CellsMatrix::getCellAt(QPoint point){
 }
 
 void CellsMatrix::fillMatrix(){
+    QBrush brush[3];
+    brush[0] = Qt::darkGreen;
+    brush[1] = Qt::white;
+    brush[2] = Qt::green;
+    bool **mas = placeWalls();
+    for (int i = 0; i < hSize; ++i){
+        for (int j = 0; j < wSize; ++j){
+            Landshaft *m = new Landshaft();
+            m->setPriority(0);
+            m->setCellPos(j, i);
+            if (mas[i][j]){
+                m->setColor(brush[1]);
+                m->setImage(QPixmap(":/img/wall.png"));
+                m->setWalkProperty(false);
+            }
+            else{
+                m->setColor(brush[2]);
+                m->setWalkProperty(true);
+                m->setImage(QPixmap(":/img/ground.png"));
+                if (rand() % 2){
+                    TrapOnLand *trap = new TrapOnLand();
+                    trap->setTrap(rand()%10 , false, 3);
+                    trap->setCellPos(j, i);
+                    matrix[i][j]->addTrap(trap);
+                }
+            }
+            matrix[i][j]->setLandshaft(m);
+        }
+    }
+    /*
    QBrush brush[3];
    brush[0] = Qt::darkGreen;
    brush[1] = Qt::white;
@@ -110,11 +168,11 @@ void CellsMatrix::fillMatrix(){
             if (k == 1){
                 if (rand() % 3){
                     m->setImage(QPixmap(":/img/wall.png"));
-                    m->setWalkProperty(true);
+                    m->setWalkProperty(false);
                 }
                 else{
                     k = 2;
-                    m->setWalkProperty(false);
+                    m->setWalkProperty(true);
                 }
             }
             else
@@ -130,7 +188,7 @@ void CellsMatrix::fillMatrix(){
                 m->setImage(QPixmap(":/img/ground.png"));
             matrix[i][j]->setLandshaft(m);
        }
-   }
+   }*/
 }
 
 int CellsMatrix::addGameObject(GameObject *object, int x, int y){

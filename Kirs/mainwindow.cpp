@@ -60,6 +60,7 @@ void MainWindow::newGame(){
     level->AddHero();
     iScene = new IndicatorScene();
     iScene->getHealthBar()->setMaxHealth(100, 100);
+    cout << endl;
     for (int ii = 0; ii < rowCount; ++ii){
         for (int j = 0; j < colCount; ++j){
             cout << level->getCellAt(j, ii)->canWalkTo() << " ";
