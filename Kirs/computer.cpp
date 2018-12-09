@@ -20,13 +20,7 @@ Computer::~Computer(){
 }
 
 void Computer::setField(CellsMatrix *matr){
-    matrix = matr;/*
-    do{
-        x = rand() % colCount;
-        y = rand() % rowCount;
-    }while (!matrix->getCellAt(x, y)->canWalkTo());*/
-    x = 1;
-    y = 1;
+    matrix = matr;
     matrix->addGameObject(monster, x, y);
 }
 
@@ -42,9 +36,10 @@ bool Computer::attackAction(){
     int dxx[4] = {1, 0, -1, 0};
     int dyy[4] = {0, -1, 0, 1};
     for (int i = 0; i < 4; ++i){
-        if ((x > 0) && (x < 9) && (y > 0) && (y < 9)){
+        if ((x + dxx[i] >= 0) && (x + dxx[i] < colCount) &&
+                (y + dyy[i] >= 0) && (y + dyy[i] < rowCount)){
             QVector<LivingObject* > liv = matrix->getCellAt(x + dxx[i], y + dyy[i])->getLivings();
-            if (liv.size() > 0){
+            if ((liv.size() > 0) && (liv[0] != this->monster)){
                 t = true;
                 GameEvent *event;
                 event = new GameEvent();
@@ -59,16 +54,16 @@ bool Computer::attackAction(){
 bool Computer::moveAction(){
     bool t = false;
     if (monster->getAliveProperty()){
-        if ((x + 1 < 4) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
+        if ((x + 1 < colCount) && (matrix->getCellAt(x + 1, y)->canWalkTo())){
             dx = 1;
         }
-        else if ((y + 1 < 5) && (matrix->getCellAt(x, y + 1)->canWalkTo())){
+        else if ((y + 1 < rowCount) && (matrix->getCellAt(x, y + 1)->canWalkTo())){
             dy = 1;
         }
-        else if (matrix->getCellAt(x - 1, y)->canWalkTo()){
+        else if ((x > 0) && (matrix->getCellAt(x - 1, y)->canWalkTo())){
             dx = -1;
         }
-        else if (matrix->getCellAt(x, y--)->canWalkTo()){
+        else if ((y > 0) && (matrix->getCellAt(x, y--)->canWalkTo())){
             dy = -1;
         }
         if (abs(dx) + abs(dy) > 0){

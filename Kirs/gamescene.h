@@ -20,6 +20,7 @@ public:
 
     QPoint* getClickPos();
     bool    checkAttack();
+    bool    checkStop();
 
     //void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
@@ -32,12 +33,12 @@ public:
     void closeContextMenu();
 
     bool readyAttack;
+    bool stopBtn;
 
 signals:
     void OpenMainMenu();
 
 private:
-    QVector<GameObject *> lastVect;
     QPoint* lastClickPos;
     bool hasClicked;
     int leftX, leftY;

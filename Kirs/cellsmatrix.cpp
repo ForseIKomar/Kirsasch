@@ -153,42 +153,6 @@ void CellsMatrix::fillMatrix(){
             matrix[i][j]->setLandshaft(m);
         }
     }
-    /*
-   QBrush brush[3];
-   brush[0] = Qt::darkGreen;
-   brush[1] = Qt::white;
-   brush[2] = Qt::green;
-   for (int i = 0; i < hSize; ++i){
-       for (int j = 0; j < wSize; ++j){
-            Landshaft *m = new Landshaft();
-            int k = rand() % 3;
-            m->setColor(brush[k]);
-            m->setPriority(0);
-            m->setCellPos(j, i);
-            if (k == 1){
-                if (rand() % 3){
-                    m->setImage(QPixmap(":/img/wall.png"));
-                    m->setWalkProperty(false);
-                }
-                else{
-                    k = 2;
-                    m->setWalkProperty(true);
-                }
-            }
-            else
-                m->setWalkProperty(true);
-            if (k == 0){
-                m->setImage(QPixmap(":/img/ground.png"));
-                TrapOnLand *trap = new TrapOnLand();
-                trap->setTrap(rand()%10 , false, 3);
-                trap->setCellPos(j, i);
-                matrix[i][j]->addTrap(trap);
-            }
-            if (k == 2)
-                m->setImage(QPixmap(":/img/ground.png"));
-            matrix[i][j]->setLandshaft(m);
-       }
-   }*/
 }
 
 int CellsMatrix::addGameObject(GameObject *object, int x, int y){

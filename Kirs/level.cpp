@@ -30,7 +30,13 @@ void Level::AddGameObject(GameObject *object, int x, int y){
 }
 
 void Level::AddHero(){
-    AddGameObject(player->getHero(), 0, 0);
+    int x, y;
+    do{
+        x = rand() % colCount;
+        y = rand() % rowCount;
+    }while (!field->getCellAt(x, y)->canWalkTo());
+    player->setNextPoint(x, y);
+    AddGameObject(player->getHero(), x, y);
 }
 
 void Level::MoveGameObject(GameObject *object, int to_x, int to_y){
@@ -88,27 +94,18 @@ void Level::checkTraps(LivingObject *object){
 }
 
 void Level::generateField(){
-    cout << 2;
     field->generateMatrix(colCount, rowCount);
-    cout << 2;
-
     field->fillMatrix();
-    cout << 2;
 }
 
 bool Level::CheckMoving(){
     QPoint* p = graphics->getClickPos();
 
     if (p != NULL){
-        cout << "Coords:" << p->x() << " " << p->y() << endl;
-        cout << "X";
         int x = p->x() + player->getHero()->getCellPos().x();
-        cout << "Y";
         int y = p->y() + player->getHero()->getCellPos().y();
         if (!((x < 0) || (x >= colCount) || (y < 0) || (y >= rowCount))){
-            cout << 2;
-        if (graphics->checkAttack()){
-            cout << 2 << endl;
+            if (graphics->checkAttack()){
             QVector<LivingObject* > m = field->getCellAt(x, y)->getLivings();
             for (int i = 0; i < m.size(); ++i){
                 if (m[i]->getObjectType() == LIVING_OBJECT){
@@ -118,6 +115,9 @@ bool Level::CheckMoving(){
                     events->AddEvent(event);
                     return true;
                 }
+            }
+            if (graphics->checkStop()){
+                return true;
             }
             graphics->readyAttack = false;
         }
@@ -158,6 +158,7 @@ Player* Level::getPlayer(){
 void Level::activateEvent(GameEvent *event){
     switch (event->command){
     case COMMAND_ATTACK:{
+        cout << "Atk event with dmg: " << event->damage << endl;
         if (event->sender->getAliveProperty()){
             event->reciever->changeHealth(event->damage);
             if (event->reciever->getHealth() <= 0){

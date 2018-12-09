@@ -14,17 +14,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     srand(time(NULL));
     newGame();
-    cout << "A" << endl;
-    ui->graphicsView->setGeometry(0, 0, 14 * cellWidth, 12 * cellHeight);
-    this->setGeometry(0, 40, 14 * cellWidth, 20 * cellHeight);
+    ui->graphicsView->setGeometry(0, 0, 15 * cellWidth, 15 * cellHeight);
+    this->setGeometry(0, 40, 15 * cellWidth, 15 * cellHeight);
     this->setMaximumHeight(30 * cellHeight);
-    this->setMaximumWidth(14 * cellWidth);
-    this->setMinimumHeight(14 * cellHeight);
-    this->setMinimumWidth(14 * cellWidth);
+    this->setMaximumWidth(15 * cellWidth);
+    this->setMinimumHeight(15 * cellHeight);
+    this->setMinimumWidth(15 * cellWidth);
 
-    ui->graphicsView_2->setGeometry(0, 12 * cellHeight, 14 * cellWidth,
-                                    2 * cellHeight);
-    ui->graphicsView_2->setScene(iScene);
+    //ui->graphicsView_2->setGeometry(0, 12 * cellHeight, 14 * cellWidth,
+    //                                2 * cellHeight);
+    //ui->graphicsView_2->setScene(iScene);
     timer = new QTimer();
     timer->setInterval(20);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
@@ -50,27 +49,15 @@ void MainWindow::OpenMenu(){
 }
 
 void MainWindow::newGame(){
-    cout << 1;
     level = new Level();
-    cout << 1;
     i = 0;
     level->generateField();
-    cout << 1;
     ui->graphicsView->setScene(level->getGraphics());
     level->AddHero();
     iScene = new IndicatorScene();
     iScene->getHealthBar()->setMaxHealth(100, 100);
-    cout << endl;
-    for (int ii = 0; ii < rowCount; ++ii){
-        for (int j = 0; j < colCount; ++j){
-            cout << level->getCellAt(j, ii)->canWalkTo() << " ";
-        }
-        cout << endl;
-    }
-    cout << 5;
     j = 100;
     level->updateLevel();
-    cout << 1;
 }
 
 MainWindow::~MainWindow()
