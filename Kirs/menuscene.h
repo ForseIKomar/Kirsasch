@@ -7,9 +7,10 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QPushButton>
-#include "menubutton.h"
-
 #include <QGraphicsTextItem>
+
+#include "main_settings.h"
+#include "gamebutton.h"
 
 class MenuScene : public QGraphicsScene
 {
@@ -27,11 +28,14 @@ public:
 signals:
     void startGame();
 
-private:
-    QGraphicsTextItem *text;
+    void exitFromGame();
 
-public:
-    MenuButton *startBtn;
+private:
+    QGraphicsTextItem   *text;
+    GameButton          *startBtn;
+    GameButton          *loadBtn;
+    GameButton          *optionBtn;
+    GameButton          *exitBtn;
 };
 
 #endif // MENUSCENE_H

@@ -4,9 +4,36 @@ MenuScene::MenuScene(QObject *parent) : QGraphicsScene(parent)
 {
     this->setSceneRect(0, 0, 400, 400);
     this->addRect(0, 0, 400, 400);
-    text = new QGraphicsTextItem();
-    startBtn = new MenuButton();
-    startBtn->setPos(100, 20);
+    startBtn = new GameButton();
+    startBtn->setPos(100, 30);
+    loadBtn = new GameButton();
+    loadBtn->setPos(100, 130);
+    optionBtn = new GameButton();
+    optionBtn->setPos(100, 230);
+    exitBtn = new GameButton();
+    exitBtn->setPos(100, 330);
+
+    startBtn->setText("New game");
+    loadBtn->setText("Load game");
+    optionBtn->setText("Options");
+    exitBtn->setText("Exit");
+
+    addItem(startBtn);
+    addItem(loadBtn);
+    addItem(optionBtn);
+    addItem(exitBtn);
+    QGraphicsPixmapItem *pix1 = new QGraphicsPixmapItem();
+    pix1->setPixmap(QPixmap(":/img/MenuWallpaper_1.png"));
+    pix1->setZValue(-100);
+    pix1->setPos(-(windowWidth * cellWidth - 400) / 2,
+                 -(windowHeight * cellHeight - 400) / 2);
+    this->addItem(pix1);
+
+    QGraphicsPixmapItem *pix2 = new QGraphicsPixmapItem();
+    pix2->setPixmap(QPixmap(":/img/MenuWallpaper_2.jpg"));
+    pix2->setZValue(-90);
+    pix2->setPos(0, 0);
+    this->addItem(pix2);
 }
 
 MenuScene::~MenuScene(){
@@ -18,23 +45,18 @@ void MenuScene::basicSettings(){
 }
 
 void MenuScene::renderMainMenu(){
-    //this->basicSettings();
-    //this->addRect(150, 20, 100, 40);
-    //text->setHtml("Lel");
-    //text->setPos(190, 30);
-    //text->setOpacity(1);
-    //this->addItem(text);
-    addItem(startBtn);
+
 }
 
 void MenuScene::mousePressEvent(QGraphicsSceneMouseEvent *event){
-    //int x = event->scenePos().x();
-    //int y = event->scenePos().y();
-    //if ((x >= 150) && (x <= 250) && (y >= 20) && (y <= 60)){
+    int x = event->scenePos().x();
+    int y = event->scenePos().y();
+    if ((x >= 100) && (x <= 300) && (y >= 30) && (y <= 70)){
         emit(startGame());
-    //}
-    //while (this->items().size() > 0)
-    //    this->removeItem(this->items().at(0));
-    //renderMainMenu();
-    //this->addText(QString::number(x) + " " + QString::number(y));
+    }
+
+    if ((x >= 100) && (x <= 300) && (y >= 330) && (y <= 370)){
+        emit(exitFromGame());
+    }
+
 }

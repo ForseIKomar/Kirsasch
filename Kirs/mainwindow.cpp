@@ -14,12 +14,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     srand(time(NULL));
     newGame();
-    ui->graphicsView->setGeometry(0, 0, 15 * cellWidth, 15 * cellHeight);
-    this->setGeometry(0, 40, 15 * cellWidth, 15 * cellHeight);
+    ui->graphicsView->setGeometry(0, 0, windowWidth * cellWidth, windowHeight * cellHeight);
+    this->setGeometry(0, 40, windowWidth * cellWidth, windowHeight * cellHeight);
     this->setMaximumHeight(30 * cellHeight);
-    this->setMaximumWidth(15 * cellWidth);
-    this->setMinimumHeight(15 * cellHeight);
-    this->setMinimumWidth(15 * cellWidth);
+    this->setMaximumWidth(windowWidth * cellWidth);
+    this->setMinimumHeight(windowHeight * cellHeight);
+    this->setMinimumWidth(windowWidth * cellWidth);
 
     //ui->graphicsView_2->setGeometry(0, 12 * cellHeight, 14 * cellWidth,
     //                                2 * cellHeight);
@@ -27,20 +27,25 @@ MainWindow::MainWindow(QWidget *parent) :
     timer = new QTimer();
     timer->setInterval(20);
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimer()));
-    timer->start();
+    //timer->start();
     //this->close();
-   // menu = new MenuScene();
-    //menu->basicSettings();
-    //ui->graphicsView->setScene(menu);
+    menu = new MenuScene();
+    menu->basicSettings();
+    ui->graphicsView->setScene(menu);
     //menu->renderMainMenu();
-    //connect(menu->startBtn, SIGNAL(clicked(bool)), this, SLOT(start()));
+    connect(menu, SIGNAL(startGame()), this, SLOT(start()));
+    connect(menu, SIGNAL(exitFromGame()), this, SLOT(closeGame()));
+
 }
 
 void MainWindow::start(){
     timer->start();
     newGame();
-    GameScene *as = level->getGraphics();
-    connect(as, SIGNAL(OpenMainMenu()), this, SLOT(OpenMenu()));
+}
+
+void MainWindow::closeGame(){
+    this->close();
+    exit;
 }
 
 void MainWindow::OpenMenu(){
@@ -58,6 +63,10 @@ void MainWindow::newGame(){
     iScene->getHealthBar()->setMaxHealth(100, 100);
     j = 100;
     level->updateLevel();
+    GameScene *as = level->getGraphics();
+    ui->graphicsView->setScene(as);
+    connect(as, SIGNAL(OpenMainMenu()), this, SLOT(OpenMenu()));
+    connect(as, SIGNAL(ExitFromGame()), this, SLOT(closeGame()));
 }
 
 MainWindow::~MainWindow()

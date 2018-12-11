@@ -75,7 +75,6 @@ void Level::updateLevel(){
 void Level::render(){
     objects.clear();
     objects = field->getAllObjects();
-    cout << "Count of redrawed objects: " << objects.size() << endl;
     graphics->render(objects);
     cout << "End of update\n";
 }

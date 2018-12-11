@@ -33,6 +33,7 @@ public slots:
     void onTimer();
     void start();
     void OpenMenu();
+    void closeGame();
 
 private:
     Ui::MainWindow *ui;

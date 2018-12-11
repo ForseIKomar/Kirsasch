@@ -8,6 +8,7 @@
 #include <QKeyEvent>
 
 #include "gameobject.h"
+#include "gamebutton.h"
 
 class GameScene: public QGraphicsScene
 {
@@ -25,6 +26,7 @@ public:
     //void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
     void setLeftPoint(int x, int y);
 
@@ -37,15 +39,21 @@ public:
 
 signals:
     void OpenMainMenu();
+    void ExitFromGame();
 
 private:
     QPoint* lastClickPos;
     bool hasClicked;
     int leftX, leftY;
+    bool menuOpened;
 
 // for contextMenu
 private:
     QGraphicsRectItem *grayScreen;
+    GameButton *continueBtn;
+    GameButton *saveBtn;
+    GameButton *exitToMenuBtn;
+    GameButton *exitNahooyBtn;
 };
 
 #endif // GAMESCENE_H
