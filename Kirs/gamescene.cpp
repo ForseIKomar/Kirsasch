@@ -10,8 +10,7 @@ GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
     hasClicked = false;
     leftX = 0;
     leftY = 0;
-    setSceneRect(0, 0,
-        12 * cellWidth, 12 * cellHeight);
+    setSceneRect(0, 0, 12 * cellWidth, 12 * cellHeight);
     readyAttack = false;
 
     menuOpened = false;
@@ -46,6 +45,16 @@ GameScene::GameScene(QObject *parent): QGraphicsScene(parent){
     exitToMenuBtn->setText("Exit to main menu");
     exitNahooyBtn->setText("Exit Nahooy");
 
+    map = new Minimap();
+    map->setPos(5, 11.64 * cellHeight + 5);
+    //map->setPos(5 + cellWidth, 11.5 * cellheight + 5);
+
+    Health = new QGraphicsTextItem();
+    Health->setPos(8.4 * cellWidth, 11.6 * cellHeight);
+    Attack = new QGraphicsTextItem();
+    Armor = new QGraphicsTextItem();
+    Attack->setPos(8.4 * cellWidth, 12.3 * cellHeight);
+    Armor->setPos(8.4 * cellWidth, 13.0 * cellHeight);
 }
 
 GameScene::~GameScene(){
@@ -72,6 +81,13 @@ void GameScene::closeContextMenu(){
     this->removeItem(exitNahooyBtn);
 }
 
+void GameScene::drawMinimap(int **m){
+    map->setLeftPoint(leftX, leftY);
+    map->redraw();
+    map->setMatr(m);
+    this->addItem(map);
+}
+
 void GameScene::render(QVector<GameObject *> objects){
     while (this->items().size() > 0){
         this->removeItem(items().at(0));
@@ -84,19 +100,43 @@ void GameScene::render(QVector<GameObject *> objects){
                 -1.5 * cellHeight);
     pix->setZValue(-100);
     this->addItem(pix);
+    int **mas = new int*[colCount];
+    for (int i = 0; i < colCount; ++i){
+        mas[i] = new int[rowCount];
+        for (int j = 0; j < rowCount; ++j)
+            mas[i][j] = -1;
+    }
     for (int i = 0; i < m.size(); ++i){
         x = m[i]->getCellPos().x();
         y = m[i]->getCellPos().y();
+        if (m[i]->getSecondType() == -1){
+            if (mas[x][y] < 0)
+                mas[x][y] = (m[i]->getWalkProperty());
+        }
         if ((x >= leftX - 1) && (x < leftX + 13) &&
                 (y >= leftY - 1) && (y < leftY + 11)){
             m[i]->setPos(x * cellWidth - leftX * cellWidth,
                          y * cellHeight - leftY * cellHeight);
             this->addItem(m[i]);
+            if (m[i]->getSecondType() == 3){
+                mas[x][y] = 2;
+            }
+            if (m[i]->getSecondType() == 4){
+                mas[x][y] = 3;
+            }
         }
     }
     this->addRect(5 - cellWidth, 11.5 * cellHeight + 5,
                   13.8 * cellWidth,  2.3 * cellHeight);
 
+    drawMinimap(mas);
+
+    Health->setHtml("<font size=\"18\">Health: 35/100</font>");
+    this->addItem(Health);
+    Attack->setHtml("<font size=\"18\">Attack: 10 (+0)</font>");
+    this->addItem(Attack);
+    Armor->setHtml("<font size=\"18\">Armor: 10 (16.6%)</font>");
+    this->addItem(Armor);
 
     cout << "Count of redrawed objects: " << this->items().size() << endl;
 }

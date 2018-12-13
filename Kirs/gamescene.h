@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 
+#include "minimap.h"
 #include "gameobject.h"
 #include "gamebutton.h"
 
@@ -31,7 +32,7 @@ public:
     void setLeftPoint(int x, int y);
 
     void openContextMenu();
-
+    void drawMinimap(int **m);
     void closeContextMenu();
 
     bool readyAttack;
@@ -54,6 +55,11 @@ private:
     GameButton *saveBtn;
     GameButton *exitToMenuBtn;
     GameButton *exitNahooyBtn;
+
+//  Indicators
+private:
+    Minimap *map;
+    QGraphicsTextItem *Health, *Attack, *Armor;
 };
 
 #endif // GAMESCENE_H

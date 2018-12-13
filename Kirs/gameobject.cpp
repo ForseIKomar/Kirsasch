@@ -10,10 +10,15 @@ GameObject::GameObject():
     this->setZValue(0);
     canWalkThrow = true;
     type = GAME_OBJECT;
+    secType = -1;
 }
 
 GameObject::~GameObject(){
 
+}
+
+int GameObject::getSecondType(){
+    return secType;
 }
 
 int GameObject::getObjectType(){

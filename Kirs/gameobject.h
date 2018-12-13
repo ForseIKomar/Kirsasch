@@ -15,7 +15,9 @@ enum{
 enum {
     WALL,
     SPIKES,
-    GROUND
+    GROUND,
+    HERO,
+    MONSTER
 };
 
 class GameObject: public QGraphicsObject
@@ -35,13 +37,14 @@ public:
     bool getWalkProperty();
 
     int getObjectType();
+    int getSecondType();
     int id;
 
 private:
     QRectF boundingRect() const;
 
 protected:
-    int type;
+    int type, secType;
     int x, y;
     int priority;
     bool canWalkThrow;

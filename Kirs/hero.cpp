@@ -8,6 +8,7 @@ Hero::Hero(): LivingObject()
     setWalkProperty(false);
     image = new QImage();
     image->load("img/hero.jpg");
+    secType = HERO;
 }
 
 Hero::~Hero(){

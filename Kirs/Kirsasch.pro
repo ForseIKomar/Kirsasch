@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     simplymonster.cpp \
     dialog.cpp \
     menuscene.cpp \
-    gamebutton.cpp
+    gamebutton.cpp \
+    minimap.cpp
 
 HEADERS  += mainwindow.h \
     gamescene.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     simplymonster.h \
     dialog.h \
     menuscene.h \
-    gamebutton.h
+    gamebutton.h \
+    minimap.h
 
 FORMS    += mainwindow.ui \
     dialog.ui
