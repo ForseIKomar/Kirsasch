@@ -138,11 +138,13 @@ void CellsMatrix::fillMatrix(){
                 m->setColor(brush[1]);
                 m->setImage(QPixmap(":/img/wall.png"));
                 m->setWalkProperty(false);
+                m->setDefintion(WALL);
             }
             else{
                 m->setColor(brush[2]);
                 m->setWalkProperty(true);
                 m->setImage(QPixmap(":/img/ground.png"));
+                m->setDefintion(GROUND);
                 if (rand() % 2){
                     TrapOnLand *trap = new TrapOnLand();
                     trap->setTrap(rand()%10 , false, 3);

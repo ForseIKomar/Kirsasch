@@ -9,6 +9,7 @@ Hero::Hero(): LivingObject()
     image = new QImage();
     image->load("img/hero.jpg");
     secType = HERO;
+    defintion = HERO;
 }
 
 Hero::~Hero(){

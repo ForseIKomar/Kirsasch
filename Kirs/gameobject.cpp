@@ -11,6 +11,7 @@ GameObject::GameObject():
     canWalkThrow = true;
     type = GAME_OBJECT;
     secType = -1;
+    defintion = -1;
 }
 
 GameObject::~GameObject(){

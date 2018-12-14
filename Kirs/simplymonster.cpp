@@ -6,6 +6,7 @@ SimplyMonster::SimplyMonster()
     setWalkProperty(false);
     image = new QImage();
     secType = MONSTER;
+    defintion = MONSTER;
 }
 
 SimplyMonster::~SimplyMonster(){

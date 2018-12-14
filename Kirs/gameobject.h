@@ -38,13 +38,17 @@ public:
 
     int getObjectType();
     int getSecondType();
+
+    void setDefintion(int def);
+    int getDefintion();
+
     int id;
 
 private:
     QRectF boundingRect() const;
 
 protected:
-    int type, secType;
+    int type, secType, defintion;
     int x, y;
     int priority;
     bool canWalkThrow;

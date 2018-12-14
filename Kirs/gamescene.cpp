@@ -135,7 +135,7 @@ void GameScene::render(QVector<GameObject *> objects){
     this->addItem(Health);
     Attack->setHtml("<font size=\"18\">Attack: 10 (+0)</font>");
     this->addItem(Attack);
-    Armor->setHtml("<font size=\"18\">Armor: 10 (16.6%)</font>");
+    Armor->setHtml("<font size=\"18\">Armor: 10</font>");
     this->addItem(Armor);
 
     cout << "Count of redrawed objects: " << this->items().size() << endl;

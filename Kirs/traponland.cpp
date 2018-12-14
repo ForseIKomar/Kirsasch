@@ -10,6 +10,7 @@ TrapOnLand::TrapOnLand(): LivingObject()
     image = new QImage();
     image->load(":/img/31.jpg");
     type = TRAP_OBJECT;
+    defintion = SPIKES;
 }
 
 TrapOnLand::~TrapOnLand(){
