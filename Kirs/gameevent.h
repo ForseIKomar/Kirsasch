@@ -1,7 +1,6 @@
 #ifndef GAMEEVENT_H
 #define GAMEEVENT_H
 
-#include "gameobject.h"
 #include "livingobject.h"
 
 enum Commands

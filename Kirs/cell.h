@@ -2,7 +2,6 @@
 #define CELL_H
 
 #include <QVector>
-#include "gameobject.h"
 #include "landshaft.h"
 #include "traponland.h"
 class Cell

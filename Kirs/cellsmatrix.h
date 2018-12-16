@@ -4,9 +4,6 @@
 #include <QVector>
 
 #include "cell.h"
-#include "hero.h"
-#include "landshaft.h"
-#include "traponland.h"
 
 class CellsMatrix
 {

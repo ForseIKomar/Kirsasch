@@ -2,7 +2,6 @@
 #define TRAPONLAND_H
 
 #include <QObject>
-#include "gameobject.h"
 #include "livingobject.h"
 
 class TrapOnLand: public LivingObject

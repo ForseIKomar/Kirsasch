@@ -10,8 +10,6 @@ Level::Level()
     field = new CellsMatrix();
     graphics = new GameScene();
     player = new Player();
-    objects.clear();
-    indicators = new IndicatorScene();
     enemy = new Computer();
     enemy->setField(field);
     //enemy2 = new Computer();
@@ -73,9 +71,7 @@ void Level::updateLevel(){
 }
 
 void Level::render(){
-    objects.clear();
-    objects = field->getAllObjects();
-    graphics->render(objects);
+    graphics->render(field->getAllObjects());
     cout << "End of update\n";
 }
 

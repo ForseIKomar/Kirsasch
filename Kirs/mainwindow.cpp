@@ -59,8 +59,6 @@ void MainWindow::newGame(){
     level->generateField();
     ui->graphicsView->setScene(level->getGraphics());
     level->AddHero();
-    iScene = new IndicatorScene();
-    iScene->getHealthBar()->setMaxHealth(100, 100);
     j = 100;
     level->updateLevel();
     GameScene *as = level->getGraphics();
@@ -74,16 +72,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::timerEvent(){
-}
-
 void MainWindow::onTimer(){
     if (level->getPlayer()->getHero()->getAliveProperty()){
         if (level->CheckMoving()){
             level->updateLevel();
             cout << i++ << endl;
             j = level->getPlayer()->getHero()->getHealth();
-            iScene->getHealthBar()->setHealth(j);
         }
     }
     else{

@@ -7,10 +7,7 @@
 #include "gamescene.h"
 #include "cellsmatrix.h"
 #include "player.h"
-#include "indicatorscene.h"
-#include "traponland.h"
 #include "computer.h"
-
 #include "eventqueue.h"
 
 class Level
@@ -49,11 +46,8 @@ private:
     CellsMatrix*        field;
     GameScene*          graphics;
     Player*             player;
-    IndicatorScene*     indicators;
     Computer*           enemy, *enemy2;
     EventQueue*         events;
-
-    QVector<GameObject *> objects;
 };
 
 #endif // LEVEL_H
